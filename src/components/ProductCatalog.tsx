@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import InquiryModal from './InquiryModal';
 import SEO from './SEO';
 import { getUnsplashSrcSet } from '../lib/imageUtils';
+import WebGLImageHover from './WebGLImageHover';
 
 interface ProductCatalogProps {
   onAddToCart: (product: Product) => void;
@@ -35,7 +36,8 @@ function ProductCard({
   return (
     <div
       onClick={() => onQuickLook(product)}
-      className="group relative flex flex-col justify-between space-y-3 bg-white p-3 cursor-pointer hover:scale-[1.03] hover:shadow-[0_0_0_1px_rgba(201,168,76,0.4)]"
+      className="group relative flex flex-col justify-between space-y-3 bg-white p-3 cursor-pointer hover:scale-[1.03] hover:shadow-[0_0_0_1px_rgba(201,168,76,0.4)] cursor-hover"
+      data-cursor-text="VIEW"
       style={{ transition: 'transform 500ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 500ms ease' }}
     >
       {/* Product Frame Thumbnail */}
@@ -44,19 +46,21 @@ function ProductCard({
           <div className="absolute inset-0 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" />
         )}
         {!imgError ? (
-          <img
-            src={product.image}
-            srcSet={getUnsplashSrcSet(product.image)}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            onError={() => setImgError(true)}
-            onLoad={() => setImgLoaded(true)}
-            style={{ width:'100%', height:'100%', objectFit:'cover' }}
-            alt={product.name}
-            loading="lazy"
-            decoding="async"
-            className={`transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03] ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
-            referrerPolicy="no-referrer"
-          />
+          <>
+            <img
+              src={product.image}
+              onLoad={() => setImgLoaded(true)}
+              onError={() => setImgError(true)}
+              className="hidden" 
+              alt="preload"
+            />
+            {imgLoaded && (
+              <WebGLImageHover 
+                src={product.image} 
+                className="w-full h-full object-cover transition-opacity duration-700 ease-in-out opacity-100" 
+              />
+            )}
+          </>
         ) : (
           <div className="absolute inset-0 bg-gray-50 flex items-center justify-center">
             <span className="text-xs text-gray-400 font-sans">Image unavailable</span>
@@ -157,7 +161,7 @@ export default function ProductCatalog({
   ];
 
   return (
-    <section id="catalog" className="py-[64px] md:py-[120px] bg-warm-ivory border-b border-champagne/40 text-obsidian relative overflow-hidden">
+    <section id="catalog" className="py-16 md:py-24 bg-warm-ivory border-b border-champagne/40 text-obsidian relative overflow-hidden">
       
       {/* Soft elegant glimmers */}
       <div className="absolute top-[10%] right-[5%] w-[40%] h-[40%] bg-champagne/20 blur-[160px] rounded-full pointer-events-none" />

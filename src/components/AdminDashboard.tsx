@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { 
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer,
+  PieChart, Pie, Cell, LineChart, Line
+} from 'recharts';
 import { 
   BarChart3, Users, Gem, Box, ShieldCheck, Settings, 
   Search, Bell, LogOut, TrendingUp, TrendingDown, Clock, CheckCircle2, ChevronRight 
 } from 'lucide-react';
 import BrandLogo from './BrandLogo';
+import AdminInventoryView from '../admin/views/AdminInventoryView';
+import AdminCRMView from '../admin/views/AdminCRMView';
+import AdminLogisticsView from '../admin/views/AdminLogisticsView';
 
 interface AdminDashboardProps {
   onExit: () => void;
@@ -12,27 +19,44 @@ interface AdminDashboardProps {
 
 export default function AdminDashboard({ onExit }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState('analytics');
+  const [analyticsData, setAnalyticsData] = useState<any>(null);
+  const [recentOrders, setRecentOrders] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Mock Data
+  useEffect(() => {
+    Promise.all([
+      fetch('/api/analytics').then(res => res.json()),
+      fetch('/api/orders').then(res => res.json())
+    ])
+    .then(([analytics, orders]) => {
+      setAnalyticsData(analytics);
+      setRecentOrders(orders);
+      setIsLoading(false);
+    })
+    .catch(err => {
+      console.error('Failed to fetch admin data', err);
+      setIsLoading(false);
+    });
+  }, []);
+
+  const totalRevenue = recentOrders.reduce((sum, order) => sum + order.value, 0);
+  const activeOrders = recentOrders.filter(o => o.status !== 'Delivered').length;
+
+  // KPIs
   const kpis = [
-    { title: 'Monthly Gross Revenue', value: '₹4,25,80,000', trend: '+14.5%', isUp: true },
-    { title: 'Active Bespoke Orders', value: '18', trend: '+2', isUp: true },
+    { title: 'Monthly Gross Revenue', value: `₹${totalRevenue.toLocaleString('en-IN')}`, trend: '+14.5%', isUp: true },
+    { title: 'Active Bespoke Orders', value: activeOrders.toString(), trend: '+2', isUp: true },
     { title: 'GIA Diamonds In Transit', value: '42', trend: '-5', isUp: false },
     { title: 'Private Salon Bookings', value: '12', trend: '+4', isUp: true },
   ];
 
-  const recentOrders = [
-    { id: 'ORD-7742', client: 'Aarav Singhania', item: 'Bespoke Oval 3.2ct', status: 'At Bench', value: '₹14,50,000', date: '2 Hrs Ago' },
-    { id: 'ORD-7741', client: 'Priya Mehra', item: 'Heritage Polki Set', status: 'GIA Verification', value: '₹22,00,000', date: '5 Hrs Ago' },
-    { id: 'ORD-7740', client: 'Vikram Desai', item: 'Classic Tennis Bracelet', status: 'Armored Transit', value: '₹8,40,000', date: '1 Day Ago' },
-    { id: 'ORD-7739', client: 'Neha Kapoor', item: 'Emerald Cut Solitaire', status: 'Delivered', value: '₹11,20,000', date: '1 Day Ago' },
-  ];
+
 
   return (
     <div className="min-h-screen bg-obsidian text-warm-ivory flex font-sans selection:bg-antique-gold/30">
       
       {/* 1. Sidebar Navigation */}
-      <aside className="w-64 border-r border-white/10 bg-[#121212] flex flex-col hidden md:flex">
+      <aside className="w-64 border-r border-white/10 bg-[#121212] hidden md:flex flex-col">
         <div className="h-20 border-b border-white/10 flex items-center justify-center">
           <BrandLogo size={32} textColor="text-antique-gold" showText={false} />
         </div>
@@ -111,92 +135,160 @@ export default function AdminDashboard({ onExit }: AdminDashboardProps) {
         <div className="flex-1 overflow-y-auto p-8 bg-obsidian">
           <div className="max-w-7xl mx-auto space-y-8">
             
-            {/* KPI Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {kpis.map((kpi, i) => (
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  key={i} 
-                  className="p-6 rounded-xl bg-white/5 border border-white/10 relative overflow-hidden group hover:border-antique-gold/30 transition-colors"
-                >
-                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <BarChart3 className="w-16 h-16 text-antique-gold" />
-                  </div>
-                  <p className="text-[10px] font-display tracking-widest uppercase text-gray-400 mb-2">{kpi.title}</p>
-                  <h3 className="font-serif text-2xl md:text-3xl text-white font-light">{kpi.value}</h3>
-                  <div className={`flex items-center gap-1 mt-4 text-xs font-medium ${kpi.isUp ? 'text-green-400' : 'text-red-400'}`}>
-                    {kpi.isUp ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
-                    <span>{kpi.trend} vs last month</span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Split Content Area */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              
-              {/* Recent Orders Table */}
-              <div className="lg:col-span-2 bg-white/5 border border-white/10 rounded-xl p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="font-serif text-xl text-white font-light">Recent High-Value Commissions</h3>
-                  <button className="text-[10px] font-display tracking-widest uppercase text-antique-gold hover:text-white transition-colors">View All</button>
-                </div>
-                
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="text-[10px] font-display tracking-widest uppercase text-gray-500 border-b border-white/10">
-                        <th className="pb-4 font-medium">Order ID</th>
-                        <th className="pb-4 font-medium">VIP Client</th>
-                        <th className="pb-4 font-medium">Item Description</th>
-                        <th className="pb-4 font-medium">Status</th>
-                        <th className="pb-4 font-medium text-right">Value</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-sm">
-                      {recentOrders.map((order, i) => (
-                        <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                          <td className="py-4 font-mono text-gray-400 text-xs">{order.id}</td>
-                          <td className="py-4 font-medium text-white">{order.client}</td>
-                          <td className="py-4 text-gray-300">{order.item}</td>
-                          <td className="py-4">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium uppercase tracking-wider bg-antique-gold/10 text-antique-gold border border-antique-gold/20">
-                              {order.status === 'Delivered' ? <CheckCircle2 className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
-                              {order.status}
-                            </span>
-                          </td>
-                          <td className="py-4 text-right font-medium text-white">{order.value}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* Live Activity Feed */}
-              <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-                 <h3 className="font-serif text-xl text-white font-light mb-6">Live Activity Log</h3>
-                 <div className="space-y-6 relative before:absolute before:inset-y-0 before:left-[11px] before:w-[1px] before:bg-white/10">
-                    {[
-                      { time: 'Just Now', text: 'Client added "1.5ct Solitaire" to Vault', type: 'action' },
-                      { time: '12 mins ago', text: 'Mehul S. approved Margin Adjustment for Round Cuts', type: 'system' },
-                      { time: '45 mins ago', text: 'New Consultation booked for Flagship Salon (Tomorrow 14:00)', type: 'booking' },
-                      { time: '2 hrs ago', text: 'Armored pickup confirmed for ORD-7740 via Brink\'s', type: 'logistics' },
-                    ].map((log, i) => (
-                      <div key={i} className="relative pl-8">
-                        <div className={`absolute left-0 top-1.5 w-[22px] h-[22px] rounded-full flex items-center justify-center bg-obsidian border-2 ${log.type === 'action' ? 'border-antique-gold' : log.type === 'system' ? 'border-blue-400' : log.type === 'booking' ? 'border-maison-red' : 'border-green-400'}`}>
-                          <div className="w-1.5 h-1.5 rounded-full bg-white/50" />
-                        </div>
-                        <p className="text-[10px] text-gray-500 font-mono mb-1">{log.time}</p>
-                        <p className="text-sm text-gray-300 leading-relaxed">{log.text}</p>
+            {activeTab === 'inventory' && <AdminInventoryView />}
+            
+            {activeTab === 'crm' && <AdminCRMView />}
+            
+            {activeTab === 'logistics' && <AdminLogisticsView />}
+            
+            {activeTab === 'analytics' && (
+              <>
+                {/* KPI Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {kpis.map((kpi, i) => (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      key={i} 
+                      className="p-6 rounded-xl bg-white/5 border border-white/10 relative overflow-hidden group hover:border-antique-gold/30 transition-colors"
+                    >
+                      <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <BarChart3 className="w-16 h-16 text-antique-gold" />
                       </div>
-                    ))}
-                 </div>
-              </div>
+                      <p className="text-[10px] font-display tracking-widest uppercase text-gray-400 mb-2">{kpi.title}</p>
+                      <h3 className="font-serif text-2xl md:text-3xl text-white font-light">{kpi.value}</h3>
+                      <div className={`flex items-center gap-1 mt-4 text-xs font-medium ${kpi.isUp ? 'text-green-400' : 'text-red-400'}`}>
+                        {kpi.isUp ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
+                        <span>{kpi.trend} vs last month</span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
 
-            </div>
+                {/* Interactive Charts Section */}
+                {!isLoading && analyticsData && (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    {/* Traffic Line Chart */}
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                      <h3 className="font-serif text-xl text-white font-light mb-6">Weekly Traffic & Page Views</h3>
+                      <div className="h-64">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <LineChart data={analyticsData.trafficOverTime}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="#ffffff1a" />
+                            <XAxis dataKey="name" stroke="#9ca3af" fontSize={12} />
+                            <YAxis stroke="#9ca3af" fontSize={12} />
+                            <RechartsTooltip contentStyle={{ backgroundColor: '#121212', border: '1px solid #ffffff1a', color: '#fff' }} />
+                            <Legend wrapperStyle={{ fontSize: '12px' }} />
+                            <Line type="monotone" dataKey="visitors" stroke="#d4af37" strokeWidth={2} activeDot={{ r: 8 }} />
+                            <Line type="monotone" dataKey="pageViews" stroke="#9ca3af" strokeWidth={2} />
+                          </LineChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </div>
+
+                    {/* Popular Shapes Pie Chart */}
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                      <h3 className="font-serif text-xl text-white font-light mb-6">Popular Diamond Shapes</h3>
+                      <div className="h-64">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={analyticsData.popularShapes}
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={60}
+                              outerRadius={90}
+                              paddingAngle={5}
+                              dataKey="value"
+                              stroke="none"
+                            >
+                              {analyticsData.popularShapes.map((entry: any, index: number) => (
+                                <Cell key={`cell-${index}`} fill={['#d4af37', '#e5e7eb', '#9ca3af', '#4b5563'][index % 4]} />
+                              ))}
+                            </Pie>
+                            <RechartsTooltip contentStyle={{ backgroundColor: '#121212', border: '1px solid #ffffff1a', color: '#fff' }} />
+                            <Legend wrapperStyle={{ fontSize: '12px' }} />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Split Content Area */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  
+                  {/* Recent Orders Table */}
+                  <div className="lg:col-span-2 bg-white/5 border border-white/10 rounded-xl p-6">
+                    <div className="flex items-center justify-between mb-6">
+                      <h3 className="font-serif text-xl text-white font-light">Recent High-Value Commissions</h3>
+                      <button className="text-[10px] font-display tracking-widest uppercase text-antique-gold hover:text-white transition-colors">View All</button>
+                    </div>
+                    
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse">
+                        <thead>
+                          <tr className="text-[10px] font-display tracking-widest uppercase text-gray-500 border-b border-white/10">
+                            <th className="pb-4 font-medium">Order ID</th>
+                            <th className="pb-4 font-medium">VIP Client</th>
+                            <th className="pb-4 font-medium">Item Description</th>
+                            <th className="pb-4 font-medium">Status</th>
+                            <th className="pb-4 font-medium text-right">Value</th>
+                          </tr>
+                        </thead>
+                        <tbody className="text-sm">
+                          {recentOrders.length === 0 ? (
+                            <tr>
+                              <td colSpan={5} className="py-8 text-center text-gray-500 font-serif italic">No recent orders found.</td>
+                            </tr>
+                          ) : (
+                            recentOrders.slice(0, 8).map((order, i) => (
+                              <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                                <td className="py-4 font-mono text-gray-400 text-xs">{order.id}</td>
+                                <td className="py-4 font-medium text-white">{order.client || 'VIP Member'}</td>
+                                <td className="py-4 text-gray-300">
+                                  {order.items?.length > 1 ? `${order.items[0].name} + ${order.items.length - 1} more` : order.items?.[0]?.name || 'Custom Setup'}
+                                </td>
+                                <td className="py-4">
+                                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium uppercase tracking-wider bg-antique-gold/10 text-antique-gold border border-antique-gold/20">
+                                    {order.status === 'Delivered' ? <CheckCircle2 className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
+                                    {order.status}
+                                  </span>
+                                </td>
+                                <td className="py-4 text-right font-medium text-white">₹{order.value?.toLocaleString('en-IN') || 0}</td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Live Activity Feed */}
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+                    <h3 className="font-serif text-xl text-white font-light mb-6">Live Activity Log</h3>
+                    <div className="space-y-6 relative before:absolute before:inset-y-0 before:left-[11px] before:w-[1px] before:bg-white/10">
+                        {[
+                          { time: 'Just Now', text: 'Client added "1.5ct Solitaire" to Vault', type: 'action' },
+                          { time: '12 mins ago', text: 'Mehul S. approved Margin Adjustment for Round Cuts', type: 'system' },
+                          { time: '45 mins ago', text: 'New Consultation booked for Flagship Salon (Tomorrow 14:00)', type: 'booking' },
+                          { time: '2 hrs ago', text: 'Armored pickup confirmed for ORD-7740 via Brink\'s', type: 'logistics' },
+                        ].map((log, i) => (
+                          <div key={i} className="relative pl-8">
+                            <div className={`absolute left-0 top-1.5 w-[22px] h-[22px] rounded-full flex items-center justify-center bg-obsidian border-2 ${log.type === 'action' ? 'border-antique-gold' : log.type === 'system' ? 'border-blue-400' : log.type === 'booking' ? 'border-maison-red' : 'border-green-400'}`}>
+                              <div className="w-1.5 h-1.5 rounded-full bg-white/50" />
+                            </div>
+                            <p className="text-[10px] text-gray-500 font-mono mb-1">{log.time}</p>
+                            <p className="text-sm text-gray-300 leading-relaxed">{log.text}</p>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+
+                </div>
+              </>
+            )}
 
           </div>
         </div>

@@ -1,4 +1,5 @@
-import { X, Trash2, ShieldCheck, Truck, RotateCcw } from 'lucide-react';
+import { useState } from 'react';
+import { X, Trash2, ShieldCheck, Truck, RotateCcw, Loader2 } from 'lucide-react';
 import { CartItem } from '../types';
 
 interface CartOverlayProps {
@@ -6,7 +7,7 @@ interface CartOverlayProps {
   onClose: () => void;
   cartItems: CartItem[];
   onRemoveItem: (id: string, isCustomRing?: boolean) => void;
-  onCheckout: () => void;
+  onCheckout: () => Promise<void> | void;
 }
 
 export default function CartOverlay({
@@ -16,6 +17,8 @@ export default function CartOverlay({
   onRemoveItem,
   onCheckout,
 }: CartOverlayProps) {
+  const [isProcessing, setIsProcessing] = useState(false);
+
   if (!isOpen) return null;
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -170,14 +173,23 @@ export default function CartOverlay({
               {/* Action checkout buttons */}
               <div className="space-y-2 pt-2">
                 <button
-                  onClick={onCheckout}
-                  className="w-full py-4.5 bg-obsidian text-warm-ivory font-display text-xs tracking-widest hover:bg-[#1a1a1a] transition-all hover:shadow-md cursor-pointer uppercase font-medium"
+                  onClick={async () => {
+                    setIsProcessing(true);
+                    try {
+                      await onCheckout();
+                    } finally {
+                      setIsProcessing(false);
+                    }
+                  }}
+                  disabled={isProcessing}
+                  className="w-full py-4.5 bg-obsidian text-warm-ivory font-display text-xs tracking-widest hover:bg-[#1a1a1a] transition-all hover:shadow-md cursor-pointer uppercase font-medium disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  CONTINUE TO PRIVATE BILLING
+                  {isProcessing ? <><Loader2 className="w-4 h-4 animate-spin" /> SECURING VAULT...</> : 'CONTINUE TO PRIVATE BILLING'}
                 </button>
                 <button
                   onClick={onClose}
-                  className="w-full text-center py-2 text-[10px] text-gray-400 font-display tracking-widest hover:text-antique-gold transition-colors uppercase cursor-pointer"
+                  disabled={isProcessing}
+                  className="w-full text-center py-2 text-[10px] text-gray-400 font-display tracking-widest hover:text-antique-gold transition-colors uppercase cursor-pointer disabled:opacity-50"
                 >
                   Resume Boutique Browsing
                 </button>

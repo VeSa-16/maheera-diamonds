@@ -3,6 +3,7 @@ import { Sparkles, ShieldAlert, Award, ChevronRight, Check, MessageCircle } from
 import { CustomRingConfiguration, DiamondShapeType, MetalType, SettingType } from '../types';
 import { DIAMOND_SHAPES, METALS, SETTINGS, CLARITY_LEVELS, COLOR_GRADES } from '../data';
 import InquiryModal from './InquiryModal';
+import ThreeRingViewer from './ThreeRingViewer';
 
 interface DiamondCustomizerProps {
   onAddCustomToCart: (config: CustomRingConfiguration, finalPrice: number) => void;
@@ -47,91 +48,7 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
     return finalPrice;
   }, [config, activeShape, activeMetal, activeSetting, activeClarity, activeColor]);
 
-  // Diamond shape vector drawings for beautiful premium preview
-  const renderDiamondOverlay = () => {
-    // scale size according to carat slider
-    const baseScale = 0.6 + (config.carat / 5.0) * 0.4; // between 0.6 and 1.0
-    const scaleStyle = { transform: `scale(${baseScale})` };
 
-    switch (config.shape) {
-      case 'round':
-        return (
-          <svg style={scaleStyle} className="w-48 h-48 text-[#E2F0F7] drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-all duration-700" viewBox="0 0 100 100" fill="currentColor">
-            {/* Round diamond faceted path */}
-            <polygon points="50,10 75,30 50,90 25,30" fill="#F4FAFD" opacity="0.9" />
-            <polygon points="50,10 33,30 25,30" fill="#E1F0F8" />
-            <polygon points="50,10 67,30 75,30" fill="#FFFFFF" />
-            <polygon points="50,10 40,30 50,30" fill="#FFFFFF" opacity="0.6"/>
-            <polygon points="50,10 60,30 50,30" fill="#D3EBF5" opacity="0.7"/>
-            {/* Lower facets */}
-            <polygon points="25,30 33,30 50,90" fill="#B9DFEF" opacity="0.8" />
-            <polygon points="75,30 67,30 50,90" fill="#8AC7E4" opacity="0.7" />
-            <polygon points="33,30 50,30 50,90" fill="#FFFFFF" opacity="0.5"/>
-            <polygon points="67,30 50,30 50,90" fill="#EAF6FB" opacity="0.6"/>
-            {/* Sparkles */}
-            <circle cx="28" cy="25" r="1.5" fill="#FFFFFF" className="animate-pulse" />
-            <circle cx="72" cy="25" r="1.5" fill="#FFFFFF" className="animate-pulse" />
-            <circle cx="50" cy="85" r="2" fill="#FFFFFF" className="animate-pulse" />
-            <circle cx="48" cy="35" r="1.5" fill="#FFFFFF" className="animate-pulse" />
-          </svg>
-        );
-      case 'oval':
-        return (
-          <svg style={scaleStyle} className="w-48 h-48 text-[#E2F0F7] drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-all duration-700" viewBox="0 0 100 100" fill="currentColor">
-            {/* Oval faceted paths */}
-            <path d="M50,15 C65,15 75,30 74,50 C73,70 65,85 50,85 C35,85 27,70 26,50 C25,30 35,15 50,15 Z" fill="#F4FAFD" opacity="0.9"/>
-            <path d="M50,15 C58,15 65,30 63,50 C61,70 58,85 50,85 Z" fill="#FFFFFF" opacity="0.5"/>
-            <path d="M40,25 C45,20 55,20 60,25 L50,50 Z" fill="#E1F0F8"/>
-            <path d="M40,75 C45,80 55,80 60,75 L50,50 Z" fill="#8AC7E4" opacity="0.7"/>
-            <path d="M26,50 L50,50 L40,25 Z" fill="#B9DFEF" opacity="0.8"/>
-            <path d="M74,50 L50,50 L60,25 Z" fill="#99D1EC" opacity="0.6"/>
-            <circle cx="50" cy="50" r="1" fill="#FFFFFF"/>
-          </svg>
-        );
-      case 'emerald':
-        return (
-          <svg style={scaleStyle} className="w-48 h-48 text-[#E2F0F7] drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-all duration-700" viewBox="0 0 100 100" fill="currentColor">
-            {/* Emerald step cuts */}
-            <polygon points="35,20 65,20 65,80 35,80" fill="#F4FAFD" opacity="0.9" />
-            <polygon points="40,26 60,26 60,74 40,74" fill="#FFFFFF" opacity="0.8" />
-            <polygon points="45,34 55,34 55,66 45,66" fill="#8AC7E4" opacity="0.4" />
-            {/* Step cut facets lines */}
-            <line x1="35" y1="20" x2="40" y2="26" stroke="#99D1EC" strokeWidth="1" />
-            <line x1="65" y1="20" x2="60" y2="26" stroke="#99D1EC" strokeWidth="1" />
-            <line x1="35" y1="80" x2="40" y2="74" stroke="#99D1EC" strokeWidth="1" />
-            <line x1="65" y1="80" x2="60" y2="74" stroke="#99D1EC" strokeWidth="1" />
-          </svg>
-        );
-      case 'cushion':
-        return (
-          <svg style={scaleStyle} className="w-48 h-48 text-[#E2F0F7] drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-all duration-700" viewBox="0 0 100 100" fill="currentColor">
-            {/* Cushion square-oval paths */}
-            <path d="M34,22 C44,18 56,18 66,22 C76,27 82,37 82,50 C82,63 76,73 66,78 C56,82 44,82 34,78 C24,73 18,63 18,50 C18,37 24,27 34,22 Z" fill="#F4FAFD" opacity="0.9"/>
-            <path d="M38,28 C45,25 55,25 62,28 C68,32 72,40 72,50 C72,60 68,68 62,72 C55,75 55,75 38,72 C32,68 28,60 28,50 C28,40 32,32 38,28 Z" fill="#FFF" opacity="0.4"/>
-            <polygon points="34,22 50,50 66,22" fill="#E1F0F8"/>
-            <polygon points="34,78 50,50 66,78" fill="#8AC7E4" opacity="0.7"/>
-            <polygon points="18,50 50,50 34,22" fill="#B9DFEF" opacity="0.9"/>
-            <polygon points="82,50 50,50 66,22" fill="#99D1EC" opacity="0.6"/>
-          </svg>
-        );
-      case 'princess':
-        return (
-          <svg style={scaleStyle} className="w-48 h-48 text-[#E2F0F7] drop-shadow-[0_0_20px_rgba(197,160,89,0.35)] transition-all duration-700" viewBox="0 0 100 100" fill="currentColor">
-            {/* Square Princess cut */}
-            <polygon points="25,25 75,25 75,75 25,75" fill="#F4FAFD" opacity="0.9" />
-            <polygon points="25,25 50,50 75,25" fill="#FFFF" />
-            <polygon points="25,75 50,50 75,75" fill="#8AC7E4" opacity="0.7" />
-            <polygon points="25,25 50,50 25,75" fill="#B9DFEF" opacity="0.8" />
-            <polygon points="75,25 50,50 75,75" fill="#99D1EC" opacity="0.6"/>
-            {/* Facets crossings */}
-            <line x1="25" y1="25" x2="75" y2="75" stroke="#FFFFFF" strokeWidth="0.8" opacity="0.8" />
-            <line x1="75" y1="25" x2="25" y2="75" stroke="#FFFFFF" strokeWidth="0.8" opacity="0.8" />
-          </svg>
-        );
-      default:
-        return null;
-    }
-  };
 
   const renderShapeIcon = (shapeId: string, isSelected: boolean) => {
     const strokeColor = isSelected ? '#C9A84C' : 'rgba(250,247,242,0.6)';
@@ -192,7 +109,7 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
   };
 
   return (
-    <section id="customizer" className="py-[64px] md:py-[120px] bg-obsidian border-b border-white/5 text-white relative overflow-hidden">
+    <section id="customizer" className="py-16 md:py-24 bg-obsidian border-b border-white/5 text-white relative overflow-hidden">
       {/* Background glimmers for three-dimensional visual depth */}
       <div className="absolute top-[20%] left-[-10%] w-[35%] h-[35%] bg-antique-gold/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[20%] right-[-10%] w-[35%] h-[35%] bg-amber-500/5 blur-[120px] rounded-full pointer-events-none" />
@@ -230,78 +147,14 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
               <span className="font-display text-[8px] text-obsidian tracking-widest font-medium uppercase">GIA Verified</span>
             </div>
 
-            <div className="flex-1 flex items-center justify-center relative scale-[0.75] origin-center">
-              
-              {/* Dynamic Ring Band render */}
-              <div
-                style={{ borderColor: activeMetal.bgHex }}
-                className="absolute w-60 h-60 rounded-full border-[10px] shadow-inner transition-colors duration-1000 flex items-center justify-center relative"
-              >
-                {/* Solitaire/Pavé stones or Halo elements decorations */}
-                {config.setting === 'pave' && (
-                  <div className="absolute inset-0 rounded-full border-2 border-dashed border-white/60 opacity-60 animate-spin" style={{ animationDuration: '60s' }} />
-                )}
-
-                {/* Prong overlay where diamond sits */}
-                <div className="absolute -top-3 w-10 h-6 flex justify-between px-1.5 z-10">
-                  <div className="w-1.5 h-4 rounded-xl bg-zinc-400 shadow-xs" style={{ backgroundColor: activeMetal.bgHex }} />
-                  <div className="w-1.5 h-4 rounded-xl bg-zinc-400 shadow-xs" style={{ backgroundColor: activeMetal.bgHex }} />
-                </div>
-                
-                {/* Live Engraving Overlay */}
-                {config.engraving && (
-                  <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-50" viewBox="0 0 240 240">
-                    <defs>
-                      <path id="innerBandPath" d="M 120, 15 A 105,105 0 1,1 119.9,15" />
-                    </defs>
-                    <text 
-                      fill={activeMetal.id === 'rose-gold' ? '#4A2511' : activeMetal.id === 'yellow-gold' ? '#5A4611' : '#333333'} 
-                      fontSize="9" 
-                      letterSpacing="2"
-                      style={{ 
-                        fontFamily: config.engravingFont === 'script' ? '"Pinyon Script", cursive' : config.engravingFont === 'sans' ? '"DM Sans", sans-serif' : '"Cormorant Garamond", serif',
-                        textTransform: config.engravingFont === 'script' ? 'none' : 'uppercase'
-                      }}
-                    >
-                      <textPath href="#innerBandPath" startOffset="50%" textAnchor="middle">
-                        {config.engraving}
-                      </textPath>
-                    </text>
-                  </svg>
-                )}
-              </div>
-
-              {/* Central Diamond Hover-float with sparkles */}
-              <div className="absolute -top-1 animate-bounce z-20 flex items-center justify-center" style={{ animationDuration: '4s' }}>
-                <div className="absolute w-[120px] h-[120px] rounded-full z-0" style={{ background: 'radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%)' }} />
-                <div className="relative z-10">
-                  {renderDiamondOverlay()}
-                </div>
-
-                {/* Halo visual overlay */}
-                {config.setting === 'halo' && (
-                  <div className="absolute inset-0 -m-3 border border-dashed border-white/70 rounded-full animate-spin pointer-events-none" style={{ animationDuration: '30s' }} />
-                )}
-
-                {/* Side flankers stones */}
-                {config.setting === 'three-stone' && (
-                  <>
-                    {/* Left gem */}
-                    <div className="absolute left-6 top-1/2 -translate-y-1/2 opacity-70 scale-50 z-10">
-                      <svg className="w-24 h-24 text-[#E2F0F7]" viewBox="0 0 100 100" fill="currentColor">
-                        <polygon points="50,10 75,30 50,90 25,30" fill="#FFFFFF" />
-                      </svg>
-                    </div>
-                    {/* Right gem */}
-                    <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-70 scale-50 z-10">
-                      <svg className="w-24 h-24 text-[#E2F0F7]" viewBox="0 0 100 100" fill="currentColor">
-                        <polygon points="50,10 75,30 50,90 25,30" fill="#FFFFFF" />
-                      </svg>
-                    </div>
-                  </>
-                )}
-              </div>
-
+            <div className="flex-1 w-full h-full relative z-20 mt-8">
+              <ThreeRingViewer
+                metalColor={activeMetal.bgHex || '#d4af37'}
+                diamondShape={config.shape}
+                caratSize={config.carat}
+                settingType={config.setting}
+                engraving={config.engraving}
+              />
             </div>
 
             {/* Bottom: Interactive price and quick features summary specs */}

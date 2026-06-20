@@ -12,6 +12,8 @@ import Testimonials from './components/Testimonials';
 import InstagramFeed from './components/InstagramFeed';
 import BookingModal from './components/BookingModal';
 import CartOverlay from './components/CartOverlay';
+import AuthModal from './components/AuthModal';
+import CustomCursor from './components/CustomCursor';
 import BrandLogo from './components/BrandLogo';
 import Footer from './components/Footer';
 import JewelryCategories from './components/JewelryCategories';
@@ -21,6 +23,7 @@ import BespokeTimeline from './components/BespokeTimeline';
 import AtelierVideo from './components/AtelierVideo';
 import VIPConcierge from './components/VIPConcierge';
 import LiveChat from './components/LiveChat';
+import ClientPortal from './components/ClientPortal';
 
 const AboutUsPage = lazy(() => import('./components/AboutUsPage'));
 const CataloguePage = lazy(() => import('./components/CataloguePage'));
@@ -39,8 +42,12 @@ export default function App() {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isClientPortalOpen, setIsClientPortalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [showScrollTop, setShowScrollTop] = useState(false);
+  
+  const [user, setUser] = useState<{ name: string; email: string; token: string } | null>(null);
 
   // Dynamic success/alert notification bars
   const [premiumAlert, setPremiumAlert] = useState<{ message: string; sub?: string } | null>(null);
@@ -66,11 +73,35 @@ export default function App() {
     );
   };
 
-  // Initial premium loading screen timeout
+  // Initial premium loading screen timeout & Auth Check
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2200);
+
+    const checkAuth = async () => {
+      const token = localStorage.getItem('maheera_token');
+      if (token) {
+        try {
+          const res = await fetch('/api/user/me', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            setUser({ name: data.name, email: data.email, token });
+            if (data.favorites) {
+              setFavorites(data.favorites);
+            }
+          } else {
+            localStorage.removeItem('maheera_token');
+          }
+        } catch (err) {
+          console.error('Auth check failed', err);
+        }
+      }
+    };
+    checkAuth();
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -180,18 +211,35 @@ export default function App() {
   };
 
   // Toggle favorite
-  const handleToggleFavorite = (productId: string) => {
+  const handleToggleFavorite = async (productId: string) => {
+    let newFavorites: string[] = [];
     setFavorites((prev) => {
       const isFav = prev.includes(productId);
       if (isFav) {
         triggerAlert('Removed from Selection', 'Jewel removed from your favorites.');
-        return prev.filter((id) => id !== productId);
+        newFavorites = prev.filter((id) => id !== productId);
       } else {
         const prod = products.find((p) => p.id === productId);
         triggerAlert('Added to Curated Favorites', prod ? `“${prod.name}” has been saved to your personal registry.` : '');
-        return [...prev, productId];
+        newFavorites = [...prev, productId];
       }
+      return newFavorites;
     });
+
+    if (user) {
+      try {
+        await fetch('/api/user/favorites', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.token}`
+          },
+          body: JSON.stringify({ favorites: newFavorites })
+        });
+      } catch (err) {
+        console.error('Failed to sync favorites', err);
+      }
+    }
   };
 
   // Trigger booking success
@@ -199,17 +247,36 @@ export default function App() {
     // Optionally trigger real-time saving or alert logging
   };
 
-  // Simulated premium checkout leading to billing secure success page
-  const handleCheckout = () => {
-    setIsCartOpen(false);
-    triggerAlert(
-      'Secure Private Gateway Initialized',
-      'Opening encrypted checkout panel to authenticate secure vault routing in Pune, India. Check email for invoice details.'
-    );
-    setTimeout(() => {
-      setCartItems([]);
-      triggerAlert('Transaction Fully Authorized', 'Thank you. Your escrow payment is locked and GIA sizing begins tomorrow.');
-    }, 4500);
+  // Premium checkout leading to billing secure success page
+  const handleCheckout = async () => {
+    if (!user) {
+      triggerAlert('Authentication Required', 'Please sign in or create an account to secure your vault selection.');
+      setIsAuthOpen(true);
+      return;
+    }
+
+    try {
+      const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`
+        },
+        body: JSON.stringify({ items: cartItems, total })
+      });
+
+      if (res.ok) {
+        setIsCartOpen(false);
+        setCartItems([]);
+        triggerAlert('Transaction Fully Authorized', 'Thank you. Your bespoke commission has been securely received. Please check your email for the encrypted invoice.');
+      } else {
+        triggerAlert('Transaction Failed', 'We could not secure your commission at this time. Please contact the concierge.');
+      }
+    } catch (err) {
+      console.error('Checkout failed', err);
+      triggerAlert('Transaction Error', 'An unexpected error occurred during private billing.');
+    }
   };
 
   // Scroll smooth anchor
@@ -220,8 +287,25 @@ export default function App() {
     }
   };
 
+  const handleAuthSuccess = (userData: any) => {
+    setUser({ name: userData.name, email: userData.email, token: userData.token });
+    if (userData.favorites) {
+      setFavorites(userData.favorites);
+    }
+    localStorage.setItem('maheera_token', userData.token);
+    triggerAlert(`Welcome, ${userData.name}`, 'You are now signed into the Atelier.');
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setFavorites([]);
+    localStorage.removeItem('maheera_token');
+    triggerAlert('Signed Out', 'You have been securely signed out.');
+  };
+
   return (
     <div className="bg-warm-ivory min-h-screen flex flex-col justify-between text-obsidian selection:bg-blush-rose selection:text-obsidian relative">
+      <CustomCursor />
       
       {/* Full Screen Premium Loader */}
       <AnimatePresence>
@@ -282,6 +366,10 @@ export default function App() {
           cartCount={cartItems.reduce((acc, current) => acc + current.quantity, 0)}
           onOpenCart={() => setIsCartOpen(true)}
           onOpenBooking={() => setIsBookingOpen(true)}
+          onOpenAuth={() => setIsAuthOpen(true)}
+          onOpenClientPortal={() => setIsClientPortalOpen(true)}
+          onLogout={handleLogout}
+          user={user}
           favoritesCount={favorites.length}
           currentPage={currentPage}
           onPageChange={handlePageChangeWithTransition}
@@ -479,6 +567,22 @@ export default function App() {
         onRemoveItem={handleRemoveCartItem}
         onCheckout={handleCheckout}
       />
+
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        onSuccess={handleAuthSuccess}
+      />
+
+      {/* VIP Client Portal */}
+      <AnimatePresence>
+        {isClientPortalOpen && user && (
+          <ClientPortal
+            user={user}
+            onClose={() => setIsClientPortalOpen(false)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Live VIP Concierge Chat globally available */}
       {currentPage !== 'admin' && <LiveChat />}

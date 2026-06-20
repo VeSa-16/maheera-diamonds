@@ -26,6 +26,11 @@ html {
   overflow-x: hidden;
 }
 
+body.hide-native-cursor,
+body.hide-native-cursor * {
+  cursor: none !important;
+}
+
 @layer utilities {
   .animate-petal-burst {
     animation: petal-burst 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;

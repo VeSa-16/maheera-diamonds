@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ShoppingBag, Calendar, Menu, X, Heart, Mail, MapPin, Sparkles, Truck, ShieldCheck } from 'lucide-react';
+import { ShoppingBag, Calendar, Menu, X, Heart, Mail, MapPin, Sparkles, Truck, ShieldCheck, User, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import BrandLogo from './BrandLogo';
 
@@ -7,15 +7,23 @@ interface NavbarProps {
   cartCount: number;
   onOpenCart: () => void;
   onOpenBooking: () => void;
+  onOpenAuth: () => void;
+  onOpenClientPortal: () => void;
+  onLogout: () => void;
+  user: any;
   favoritesCount: number;
-  currentPage: 'home' | 'about' | 'catalogue' | 'contact';
-  onPageChange: (page: 'home' | 'about' | 'catalogue' | 'contact') => void;
+  currentPage: 'home' | 'about' | 'catalogue' | 'contact' | 'admin';
+  onPageChange: (page: 'home' | 'about' | 'catalogue' | 'contact' | 'admin') => void;
 }
 
 export default function Navbar({
   cartCount,
   onOpenCart,
   onOpenBooking,
+  onOpenAuth,
+  onOpenClientPortal,
+  onLogout,
+  user,
   favoritesCount,
   currentPage,
   onPageChange,
@@ -166,6 +174,42 @@ export default function Navbar({
               </span>
             )}
           </button>
+
+          {user ? (
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => {
+                  setMegaMenuOpen(false);
+                  onOpenClientPortal();
+                }}
+                className="flex items-center gap-2 relative p-2 hover:scale-105 active:scale-95 transition-all cursor-pointer hover:text-[#C8A96B]"
+                title="Client Portal"
+              >
+                <User className="w-4 h-4 sm:w-5 h-5 stroke-[1.5]" />
+                <span className="hidden md:block text-[10px] font-sans uppercase tracking-widest text-antique-gold mt-0.5">
+                  {user.name.split(' ')[0]}
+                </span>
+              </button>
+              <button
+                onClick={onLogout}
+                className="relative p-2 hover:scale-105 active:scale-95 transition-all cursor-pointer hover:text-red-400"
+                title="Log Out"
+              >
+                <LogOut className="w-4 h-4 sm:w-5 h-5 stroke-[1.5]" />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                setMegaMenuOpen(false);
+                onOpenAuth();
+              }}
+              className="relative p-2 hover:scale-105 active:scale-95 transition-all cursor-pointer hover:text-[#C8A96B]"
+              title="Sign In / Register"
+            >
+              <User className="w-4 h-4 sm:w-5 h-5 stroke-[1.5]" />
+            </button>
+          )}
 
           <button
             onClick={() => {

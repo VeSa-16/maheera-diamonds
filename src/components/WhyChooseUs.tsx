@@ -41,7 +41,7 @@ export default function WhyChooseUs() {
   };
 
   return (
-    <section className="py-[140px] bg-obsidian border-b border-white/5 relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-obsidian border-b border-white/5 relative overflow-hidden">
       {/* Subtle background decorative glimmers */}
       <div className="absolute top-[20%] right-[-10%] w-[35%] h-[35%] bg-antique-gold/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[35%] h-[35%] bg-blush-rose/5 blur-[120px] rounded-full pointer-events-none" />

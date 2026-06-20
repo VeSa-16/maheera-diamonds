@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 
 export default function StorySection() {
   return (
-    <section id="story" className="py-32 md:py-48 bg-warm-ivory text-obsidian relative overflow-hidden">
+    <section id="story" className="py-16 md:py-24 bg-warm-ivory text-obsidian relative overflow-hidden">
       
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-24">
         

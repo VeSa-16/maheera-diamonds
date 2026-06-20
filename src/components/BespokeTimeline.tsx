@@ -30,7 +30,7 @@ const TIMELINE_STEPS = [
 
 export default function BespokeTimeline() {
   return (
-    <section className="py-[100px] md:py-[140px] bg-obsidian border-y border-white/5 relative overflow-hidden select-none">
+    <section className="py-16 md:py-24 bg-obsidian border-y border-white/5 relative overflow-hidden select-none">
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         
         {/* Header Block */}

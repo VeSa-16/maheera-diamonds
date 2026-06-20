@@ -4,7 +4,7 @@ import MagneticButton from './MagneticButton';
 
 export default function VIPConcierge({ onOpenBooking }: { onOpenBooking: () => void }) {
   return (
-    <section className="py-[100px] md:py-[140px] bg-[#0A0804] border-t border-white/5 relative overflow-hidden select-none">
+    <section className="py-16 md:py-24 bg-[#0A0804] border-t border-white/5 relative overflow-hidden select-none">
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">

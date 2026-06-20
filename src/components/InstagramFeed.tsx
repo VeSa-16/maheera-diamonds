@@ -84,7 +84,7 @@ function InstaPostCard({ post }: { post: typeof INSTA_POSTS[0] }) {
 
 export default function InstagramFeed() {
   return (
-    <section className="py-[64px] md:py-[120px] bg-white border-b border-blush-rose select-none">
+    <section className="py-16 md:py-24 bg-white border-b border-blush-rose select-none">
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         
         {/* Header Block */}

@@ -43,7 +43,7 @@ export default function JewelryCategories({ onExplore }: JewelryCategoriesProps)
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       viewport={{ once: true }}
       id="jewelry-categories" 
-      className="py-[64px] md:py-[120px] bg-[#FCFAF6] border-b border-[#C8A96B]/20 overflow-hidden relative"
+      className="py-16 md:py-24 bg-[#FCFAF6] border-b border-[#C8A96B]/20 overflow-hidden relative"
     >
       {/* Decorative ambient lighting overlays */}
       <div className="absolute top-[20%] left-[-10%] w-[45%] h-[45%] bg-amber-200/5 blur-[120px] rounded-full pointer-events-none" />
