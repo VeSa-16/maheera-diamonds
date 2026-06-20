@@ -1,6 +1,6 @@
 import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment, ContactShadows, Text } from '@react-three/drei';
+import { OrbitControls, Environment, ContactShadows, Text, MeshTransmissionMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface ThreeRingViewerProps {
@@ -363,22 +363,20 @@ function DiamondMesh({ shape, scale }: { shape: string; scale: number }) {
 
   return (
     <mesh geometry={geometry} castShadow>
-      <meshPhysicalMaterial
-        transmission={0.93}
-        transparent
-        opacity={1}
-        metalness={0.02}
-        roughness={0.0}
-        ior={2.42}
-        thickness={0.5}
+      <MeshTransmissionMaterial
+        backside
+        backsideThickness={1.0}
+        thickness={1.5}
+        ior={2.417}
+        chromaticAberration={0.05}
+        anisotropy={0.2}
+        distortion={0.0}
         clearcoat={1}
         clearcoatRoughness={0}
-        color="#f4f8ff"
-        envMapIntensity={3.5}
-        attenuationColor={new THREE.Color('#e6eeff')}
-        attenuationDistance={0.3}
-        specularIntensity={1.5}
-        specularColor={new THREE.Color('#ffffff')}
+        color="#ffffff"
+        envMapIntensity={5.0}
+        resolution={1024}
+        transmissionSampler
       />
     </mesh>
   );
@@ -400,37 +398,36 @@ function useMetalMaterial(color: string) {
 }
 
 /**
- * Prong — curved claw rising from the head to grip the diamond at girdle,
- * then curling inward over the crown like in the reference sketch.
+ * Prong — elegant thick tapered claw setting
  */
 function Prong({
   angle, baseY, baseR, gripY, gripR, metalColor
 }: {
   angle: number;
-  baseY: number;   // where prong starts (top of gallery/head)
-  baseR: number;   // radial distance at base
-  gripY: number;   // Y of diamond girdle
-  gripR: number;   // radial distance at girdle
+  baseY: number;   
+  baseR: number;   
+  gripY: number;   
+  gripR: number;   
   metalColor: string;
 }) {
   const geom = useMemo(() => {
-    const pts = [
-      // Start: on the head
-      new THREE.Vector3(Math.cos(angle) * baseR, baseY, Math.sin(angle) * baseR),
-      // Rise outward slightly
-      new THREE.Vector3(Math.cos(angle) * (gripR * 1.18), baseY + (gripY - baseY) * 0.45, Math.sin(angle) * (gripR * 1.18)),
-      // Grip: at girdle level, touching the diamond
-      new THREE.Vector3(Math.cos(angle) * (gripR * 0.96), gripY, Math.sin(angle) * (gripR * 0.96)),
-      // Tip: curling over crown
-      new THREE.Vector3(Math.cos(angle) * (gripR * 0.78), gripY + gripR * 0.22, Math.sin(angle) * (gripR * 0.78)),
-    ];
-    return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 24, 0.024, 8, false);
+    // Straight thick post pointing to the diamond
+    const p1 = new THREE.Vector3(Math.cos(angle) * baseR, baseY, Math.sin(angle) * baseR);
+    const p2 = new THREE.Vector3(Math.cos(angle) * gripR * 0.94, gripY, Math.sin(angle) * gripR * 0.94);
+    return new THREE.TubeGeometry(new THREE.LineCurve3(p1, p2), 4, 0.04, 16, false);
   }, [angle, baseY, baseR, gripY, gripR]);
 
   return (
-    <mesh geometry={geom}>
-      <meshStandardMaterial color={metalColor} metalness={0.95} roughness={0.06} envMapIntensity={2} />
-    </mesh>
+    <group>
+      <mesh geometry={geom}>
+        <meshStandardMaterial color={metalColor} metalness={0.95} roughness={0.04} envMapIntensity={2.5} />
+      </mesh>
+      {/* Claw Tip */}
+      <mesh position={[Math.cos(angle) * gripR * 0.94, gripY + 0.015, Math.sin(angle) * gripR * 0.94]}>
+        <sphereGeometry args={[0.045, 16, 16]} />
+        <meshStandardMaterial color={metalColor} metalness={0.95} roughness={0.04} envMapIntensity={2.5} />
+      </mesh>
+    </group>
   );
 }
 
@@ -546,7 +543,7 @@ function RingModel({ metalColor, diamondShape, caratSize, settingType = 'solitai
     <group ref={groupRef} position={[0, -0.4, 0]} rotation={[0.45, 0, 0]}>
 
       {/* ═══ SHANK / BAND ═══ */}
-      <mesh rotation={[Math.PI / 2, 0, 0]} castShadow receiveShadow>
+      <mesh rotation={[0, 0, 0]} castShadow receiveShadow>
         <torusGeometry args={[bandR, bandT, 32, 128]} />
         <meshStandardMaterial color={metalColor} metalness={0.95} roughness={0.06} envMapIntensity={2} />
       </mesh>
@@ -585,18 +582,18 @@ function RingModel({ metalColor, diamondShape, caratSize, settingType = 'solitai
         <meshStandardMaterial color={metalColor} metalness={0.95} roughness={0.06} envMapIntensity={2} />
       </mesh>
 
-      {/* ═══ PRONGS — curved claws gripping the diamond ═══ */}
+      {/* ═══ PRONGS — straight solid claws holding the diamond ═══ */}
       {prongAngles.map((angle, i) => (
         <Prong
           key={i}
           angle={angle}
-          baseY={headBaseY + galleryH * 0.3}
+          baseY={headBaseY + galleryH * 0.2}
           baseR={bandT * 2.0}
           gripY={diamondY}
           gripR={diamondGirdleR}
           metalColor={metalColor}
         />
-      ))}
+      )}
 
       {/* ═══ CENTER DIAMOND ═══ */}
       <group position={[0, diamondY, 0]}>
@@ -637,7 +634,7 @@ function RingModel({ metalColor, diamondShape, caratSize, settingType = 'solitai
                 <Prong
                   key={`side-${side}-${j}`}
                   angle={a}
-                  baseY={headBaseY + galleryH * 0.2}
+                  baseY={headBaseY + galleryH * 0.15}
                   baseR={bandT * 1.5}
                   gripY={diamondY - dScale * 0.1}
                   gripR={diamondGirdleR * 0.5}
@@ -680,15 +677,17 @@ export default function ThreeRingViewer(props: ThreeRingViewerProps) {
         gl={{ antialias: true, alpha: true }}
       >
         {/* Warm ambient fill */}
-        <ambientLight intensity={0.3} color="#fff5e6" />
+        <ambientLight intensity={0.5} color="#ffffff" />
         {/* Key light — bright white from upper right */}
-        <spotLight position={[4, 8, 4]} angle={0.2} penumbra={1} intensity={3} castShadow color="#ffffff" />
+        <spotLight position={[4, 8, 4]} angle={0.25} penumbra={1} intensity={8} castShadow color="#ffffff" />
         {/* Fill light — warm from left */}
-        <spotLight position={[-3, 5, -2]} angle={0.35} penumbra={0.8} intensity={1.5} color="#ffe8cc" />
+        <spotLight position={[-3, 5, -2]} angle={0.4} penumbra={0.8} intensity={4} color="#ffe8cc" />
         {/* Top down light for diamond fire */}
-        <pointLight position={[0, 6, 0]} intensity={0.8} color="#ffffff" />
+        <pointLight position={[0, 6, 0]} intensity={3} color="#ffffff" />
         {/* Backlight for diamond dispersion effect */}
-        <pointLight position={[0, 2, -3]} intensity={0.5} color="#cce0ff" />
+        <pointLight position={[0, -2, -3]} intensity={2} color="#cce0ff" />
+        {/* Extra highlight point light near camera */}
+        <pointLight position={[0, 2, 4]} intensity={2} color="#ffffff" />
 
         {/* Studio HDR environment for realistic metal/diamond reflections */}
         <Environment preset="studio" />

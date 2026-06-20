@@ -71,7 +71,7 @@ export default function Masterclass4C() {
   const activeData = C_DATA[activeIndex];
 
   return (
-    <section ref={containerRef} className="relative h-[400vh] bg-[#0A0804] select-none">
+    <section ref={containerRef} className="relative h-[200vh] bg-[#0A0804] select-none">
       {/* Sticky Container */}
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         
@@ -109,8 +109,14 @@ export default function Masterclass4C() {
                 {C_DATA.map((c, idx) => (
                   <div
                     key={c.id}
-                    className={`flex flex-col items-center gap-2 sm:gap-3 transition-colors ${
-                      activeIndex === idx ? 'text-antique-gold' : 'text-gray-500'
+                    onClick={() => {
+                      if (containerRef.current) {
+                        const y = containerRef.current.offsetTop + (idx * window.innerHeight * 0.45);
+                        window.scrollTo({ top: y, behavior: 'smooth' });
+                      }
+                    }}
+                    className={`flex flex-col items-center gap-2 sm:gap-3 transition-colors cursor-pointer ${
+                      activeIndex === idx ? 'text-antique-gold' : 'text-gray-500 hover:text-gray-300'
                     }`}
                   >
                     <div className={`p-2 sm:p-3 rounded-full border transition-all ${
