@@ -47,6 +47,8 @@ export default function HeroSection({
             transition={{ duration: 8, ease: "linear" }}
             src={HERO_IMAGES[currentSlide]}
             alt="Maison Maheera"
+            fetchPriority="high"
+            decoding="sync"
             className="w-full h-full object-cover object-center"
           />
         </motion.div>

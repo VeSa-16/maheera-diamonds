@@ -154,16 +154,18 @@ export default function Masterclass4C() {
           <div className="w-full lg:w-1/2">
             <div className="aspect-[4/5] md:aspect-square w-full rounded-xs overflow-hidden border border-white/10 relative bg-obsidian">
               <AnimatePresence mode="wait">
-                <motion.img
-                  key={activeData.id}
-                  src={activeData.image}
-                  alt={activeData.title}
-                  initial={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
-                  animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, scale: 0.95, filter: 'blur(5px)' }}
-                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
+                  <motion.img
+                    key={activeData.id}
+                    src={activeData.image}
+                    alt={activeData.title}
+                    loading="lazy"
+                    decoding="async"
+                    initial={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, scale: 0.95, filter: 'blur(5px)' }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
               </AnimatePresence>
               <div className="absolute inset-0 bg-gradient-to-t from-[#0A0804] via-transparent to-transparent opacity-60 z-10 pointer-events-none" />
             </div>

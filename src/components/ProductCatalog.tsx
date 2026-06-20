@@ -254,7 +254,9 @@ export default function ProductCatalog({
                  "url": "https://maheeradiamonds.com/",
                  "priceCurrency": "INR",
                  "price": quickLookProduct.price,
-                 "availability": "https://schema.org/InStock"
+                 "availability": "https://schema.org/InStock",
+                 "itemCondition": "https://schema.org/NewCondition",
+                 "priceValidUntil": "2027-12-31"
                }
              }}
           />
@@ -263,6 +265,7 @@ export default function ProductCatalog({
           <div className="relative w-full max-w-4xl bg-obsidian border border-gold-900/40 p-6 md:p-12 shadow-2xl rounded-xs z-10 animate-fade-in flex flex-col md:flex-row gap-8 md:gap-12 text-xs">
             {/* Close button */}
             <button
+              aria-label="Close product view"
               onClick={() => setQuickLookProduct(null)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white cursor-pointer"
             >

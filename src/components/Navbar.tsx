@@ -114,6 +114,7 @@ export default function Navbar({
         {/* Center column: Brand logo */}
         <div className="flex items-center justify-center flex-initial px-4 relative z-[1001]">
           <button 
+            aria-label="Home"
             onClick={() => {
               onPageChange('home');
               setMegaMenuOpen(false);
@@ -132,6 +133,7 @@ export default function Navbar({
         {/* Right column: Action Icons */}
         <div className={`flex items-center justify-end flex-1 gap-3 sm:gap-4 md:gap-5 relative z-[1001] ${isDarkBase && !megaMenuOpen ? 'text-white' : 'text-obsidian'}`}>
           <button
+            aria-label="Book Consultation"
             onClick={() => {
               setMegaMenuOpen(false);
               onOpenBooking();
@@ -147,6 +149,7 @@ export default function Navbar({
           </button>
 
           <button
+            aria-label="Book Consultation (Mobile)"
             onClick={() => {
               setMegaMenuOpen(false);
               onOpenBooking();
@@ -161,6 +164,7 @@ export default function Navbar({
           </button>
 
           <button 
+            aria-label="Favorites"
             onClick={() => {
               setMegaMenuOpen(false);
               onPageChange('catalogue');
@@ -178,6 +182,7 @@ export default function Navbar({
           {user ? (
             <div className="flex items-center gap-1">
               <button
+                aria-label="Client Portal"
                 onClick={() => {
                   setMegaMenuOpen(false);
                   onOpenClientPortal();
@@ -191,6 +196,7 @@ export default function Navbar({
                 </span>
               </button>
               <button
+                aria-label="Log Out"
                 onClick={onLogout}
                 className="relative p-2 hover:scale-105 active:scale-95 transition-all cursor-pointer hover:text-red-400"
                 title="Log Out"
@@ -200,18 +206,20 @@ export default function Navbar({
             </div>
           ) : (
             <button
+              aria-label="Sign In"
               onClick={() => {
                 setMegaMenuOpen(false);
                 onOpenAuth();
               }}
               className="relative p-2 hover:scale-105 active:scale-95 transition-all cursor-pointer hover:text-[#C8A96B]"
-              title="Sign In / Register"
+              title="Sign In"
             >
               <User className="w-4 h-4 sm:w-5 h-5 stroke-[1.5]" />
             </button>
           )}
 
           <button
+            aria-label="Shopping Cart"
             onClick={() => {
               setMegaMenuOpen(false);
               onOpenCart();

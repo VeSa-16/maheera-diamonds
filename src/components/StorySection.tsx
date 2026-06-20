@@ -20,6 +20,8 @@ export default function StorySection() {
             <img 
               src="https://images.unsplash.com/photo-1596515438870-745d16a503fc?auto=format&fit=crop&w=1200&q=90" 
               alt="Diamond craftsmanship" 
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-1000"
             />
             {/* Subtle maison red overlay line */}

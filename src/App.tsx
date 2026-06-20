@@ -399,13 +399,94 @@ export default function App() {
           />
         )}
         {currentPage === 'catalogue' && (
-          <SEO title="Diamond Rings, Necklaces & Earrings | Maheera Diamonds" description="Explore our curated collection of luxury diamond jewelry." canonical="https://maheeradiamonds.com/catalogue" />
+          <SEO 
+            title="Diamond Rings, Necklaces & Earrings | Maheera Diamonds" 
+            description="Explore our curated collection of luxury diamond jewelry." 
+            canonical="https://maheeradiamonds.com/catalogue" 
+            schema={[
+              {
+                "@context": "https://schema.org",
+                "@type": "CollectionPage",
+                "name": "Maheera Diamonds Catalogue",
+                "description": "Explore our curated collection of luxury diamond jewelry."
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://maheeradiamonds.com/"
+                },{
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Catalogue",
+                  "item": "https://maheeradiamonds.com/catalogue"
+                }]
+              }
+            ]}
+          />
         )}
         {currentPage === 'about' && (
-          <SEO title="Our Story | GIA Certified Conflict-Free Diamonds | Maheera Diamonds" description="Learn about the heritage and craftsmanship of Maheera Diamonds." canonical="https://maheeradiamonds.com/about" />
+          <SEO 
+            title="Our Story | GIA Certified Conflict-Free Diamonds | Maheera Diamonds" 
+            description="Learn about the heritage and craftsmanship of Maheera Diamonds." 
+            canonical="https://maheeradiamonds.com/about" 
+            schema={[
+              {
+                "@context": "https://schema.org",
+                "@type": "AboutPage",
+                "name": "About Maheera Diamonds",
+                "description": "Learn about the heritage and craftsmanship of Maheera Diamonds."
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://maheeradiamonds.com/"
+                },{
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "About",
+                  "item": "https://maheeradiamonds.com/about"
+                }]
+              }
+            ]}
+          />
         )}
         {currentPage === 'contact' && (
-          <SEO title="Contact Maheera Diamonds | Pune Showroom & Virtual Consultation" description="Book a private salon appointment or virtual consultation with our diamond experts." canonical="https://maheeradiamonds.com/contact" />
+          <SEO 
+            title="Contact Maheera Diamonds | Pune Showroom & Virtual Consultation" 
+            description="Book a private salon appointment or virtual consultation with our diamond experts." 
+            canonical="https://maheeradiamonds.com/contact" 
+            schema={[
+              {
+                "@context": "https://schema.org",
+                "@type": "ContactPage",
+                "name": "Contact Maheera Diamonds",
+                "description": "Book a private salon appointment or virtual consultation with our diamond experts."
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://maheeradiamonds.com/"
+                },{
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Contact",
+                  "item": "https://maheeradiamonds.com/contact"
+                }]
+              }
+            ]}
+          />
         )}
 
         <AnimatePresence mode="wait">

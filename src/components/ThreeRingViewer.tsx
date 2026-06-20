@@ -593,7 +593,7 @@ function RingModel({ metalColor, diamondShape, caratSize, settingType = 'solitai
           gripR={diamondGirdleR}
           metalColor={metalColor}
         />
-      )}
+      ))}
 
       {/* ═══ CENTER DIAMOND ═══ */}
       <group position={[0, diamondY, 0]}>

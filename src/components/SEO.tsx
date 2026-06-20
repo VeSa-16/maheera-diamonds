@@ -5,7 +5,7 @@ interface SEOProps {
   description: string;
   canonical?: string;
   ogImage?: string;
-  schema?: Record<string, any>;
+  schema?: Record<string, any> | Record<string, any>[];
 }
 
 export default function SEO({ title, description, canonical, ogImage, schema }: SEOProps) {
@@ -15,18 +15,24 @@ export default function SEO({ title, description, canonical, ogImage, schema }: 
 
   return (
     <Helmet>
+      <html lang="en" />
       <title>{title}</title>
       <meta name="description" content={description} />
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Maheera Diamonds" />
+      <meta property="og:locale" content="en_IN" />
       {currentUrl && <meta property="og:url" content={currentUrl} />}
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage || defaultImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@maheeradiamonds" />
       {currentUrl && <meta name="twitter:url" content={currentUrl} />}
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
@@ -38,7 +44,7 @@ export default function SEO({ title, description, canonical, ogImage, schema }: 
       {/* JSON-LD Schema */}
       {schema && (
         <script type="application/ld+json">
-          {JSON.stringify(schema)}
+          {JSON.stringify(Array.isArray(schema) ? schema : [schema])}
         </script>
       )}
     </Helmet>
