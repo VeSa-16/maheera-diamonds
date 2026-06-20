@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Diamond, Sparkles, Droplet, Scale } from 'lucide-react';
 
 const C_DATA = [
@@ -50,142 +50,125 @@ const C_DATA = [
 ];
 
 export default function Masterclass4C() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // Map 0 -> 1 progress to 0, 1, 2, 3 indices
-    let index = Math.floor(latest * 4);
-    if (index >= 4) index = 3;
-    if (index < 0) index = 0;
-    if (index !== activeIndex) {
-      setActiveIndex(index);
-    }
-  });
+  // Auto-play through the 4Cs
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % 4);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
 
   const activeData = C_DATA[activeIndex];
 
   return (
-    <section ref={containerRef} className="relative h-[200vh] bg-[#0A0804] select-none">
-      {/* Sticky Container */}
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+    <section className="relative bg-[#0A0804] select-none py-16 md:py-24 overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute top-[20%] right-[-10%] w-[40%] h-[40%] bg-antique-gold/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 md:px-8 w-full relative z-10">
         
-        {/* Background Glow */}
-        <div className="absolute top-[20%] right-[-10%] w-[40%] h-[40%] bg-antique-gold/5 blur-[120px] rounded-full pointer-events-none" />
+        {/* Header */}
+        <div className="text-center mb-8 md:mb-16">
+          <span style={{ fontSize: '11px', fontVariant: 'small-caps', letterSpacing: '0.04em', color: 'var(--antique-gold)', fontWeight: 400 }} className="font-display leading-none block mb-4">
+            The Maheera Masterclass
+          </span>
+          <h2 className="font-serif text-3xl md:text-5xl font-light tracking-wide text-white leading-tight">
+            Understanding the 4Cs
+          </h2>
+        </div>
 
-        <div className="max-w-7xl mx-auto px-6 md:px-8 w-full relative z-10 pt-16">
+        {/* Content Layout */}
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
           
-          {/* Header */}
-          <div className="text-center mb-8 md:mb-16">
-            <span style={{ fontSize: '11px', fontVariant: 'small-caps', letterSpacing: '0.04em', color: 'var(--antique-gold)', fontWeight: 400 }} className="font-display leading-none block mb-4">
-              The Maheera Masterclass
-            </span>
-            <h2 className="font-serif text-3xl md:text-5xl font-light tracking-wide text-white leading-tight">
-              Understanding the 4Cs
-            </h2>
-          </div>
-
-          {/* Content Layout */}
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
+          {/* Left: Progress Tabs & Text */}
+          <div className="w-full lg:w-1/2 space-y-8 md:space-y-12">
             
-            {/* Left: Progress Tabs & Text */}
-            <div className="w-full lg:w-1/2 space-y-8 md:space-y-12">
-              
-              {/* Progress Indicator */}
-              <div className="flex justify-between border-b border-white/10 pb-4 relative">
-                {/* Animated progress bar under tabs */}
-                <motion.div 
-                  className="absolute bottom-0 left-0 h-[2px] bg-antique-gold"
-                  style={{ width: '25%' }}
-                  animate={{ left: `${activeIndex * 25}%` }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                />
+            {/* Progress Indicator */}
+            <div className="flex justify-between border-b border-white/10 pb-4 relative">
+              {/* Animated progress bar under tabs */}
+              <motion.div 
+                className="absolute bottom-0 left-0 h-[2px] bg-antique-gold"
+                style={{ width: '25%' }}
+                animate={{ left: `${activeIndex * 25}%` }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              />
 
-                {C_DATA.map((c, idx) => (
-                  <div
-                    key={c.id}
-                    onClick={() => {
-                      if (containerRef.current) {
-                        const y = containerRef.current.offsetTop + (idx * window.innerHeight * 0.45);
-                        window.scrollTo({ top: y, behavior: 'smooth' });
-                      }
-                    }}
-                    className={`flex flex-col items-center gap-2 sm:gap-3 transition-colors cursor-pointer ${
-                      activeIndex === idx ? 'text-antique-gold' : 'text-gray-500 hover:text-gray-300'
-                    }`}
-                  >
-                    <div className={`p-2 sm:p-3 rounded-full border transition-all ${
-                      activeIndex === idx ? 'border-antique-gold bg-antique-gold/10 scale-110' : 'border-transparent bg-white/5'
-                    }`}>
-                      {c.icon}
-                    </div>
-                    <span className="font-display text-[8px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.2em]">
-                      {c.id}
-                    </span>
+              {C_DATA.map((c, idx) => (
+                <div
+                  key={c.id}
+                  onClick={() => setActiveIndex(idx)}
+                  className={`flex flex-col items-center gap-2 sm:gap-3 transition-colors cursor-pointer ${
+                    activeIndex === idx ? 'text-antique-gold' : 'text-gray-500 hover:text-gray-300'
+                  }`}
+                >
+                  <div className={`p-2 sm:p-3 rounded-full border transition-all ${
+                    activeIndex === idx ? 'border-antique-gold bg-antique-gold/10 scale-110' : 'border-transparent bg-white/5'
+                  }`}>
+                    {c.icon}
                   </div>
-                ))}
-              </div>
-
-              {/* Dynamic Text Content */}
-              <div className="min-h-[250px]">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeData.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="space-y-6 md:space-y-8"
-                  >
-                    <h3 className="font-serif text-3xl md:text-4xl text-white font-light">
-                      {activeData.title}
-                    </h3>
-                    <p className="text-gray-400 font-sans font-light leading-relaxed text-sm max-w-md">
-                      {activeData.description}
-                    </p>
-
-                    <div className="grid grid-cols-2 gap-8 pt-4">
-                      {activeData.stats.map((stat, idx) => (
-                        <div key={idx} className="space-y-2">
-                          <span className="block font-display text-[9px] uppercase tracking-widest text-antique-gold">
-                            {stat.label}
-                          </span>
-                          <span className="block font-serif text-base md:text-lg text-white">
-                            {stat.value}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
+                  <span className="font-display text-[8px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.2em]">
+                    {c.id}
+                  </span>
+                </div>
+              ))}
             </div>
 
-            {/* Right: Visual Image */}
-            <div className="w-full lg:w-1/2">
-              <div className="aspect-[4/5] md:aspect-square w-full rounded-xs overflow-hidden border border-white/10 relative bg-obsidian">
-                <AnimatePresence mode="wait">
-                  <motion.img
-                    key={activeData.id}
-                    src={activeData.image}
-                    alt={activeData.title}
-                    initial={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
-                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                    exit={{ opacity: 0, scale: 0.95, filter: 'blur(5px)' }}
-                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                </AnimatePresence>
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0804] via-transparent to-transparent opacity-60 z-10 pointer-events-none" />
-              </div>
-            </div>
+            {/* Dynamic Text Content */}
+            <div className="min-h-[250px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeData.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  className="space-y-6 md:space-y-8"
+                >
+                  <h3 className="font-serif text-3xl md:text-4xl text-white font-light">
+                    {activeData.title}
+                  </h3>
+                  <p className="text-gray-400 font-sans font-light leading-relaxed text-sm max-w-md">
+                    {activeData.description}
+                  </p>
 
+                  <div className="grid grid-cols-2 gap-8 pt-4">
+                    {activeData.stats.map((stat, idx) => (
+                      <div key={idx} className="space-y-2">
+                        <span className="block font-display text-[9px] uppercase tracking-widest text-antique-gold">
+                          {stat.label}
+                        </span>
+                        <span className="block font-serif text-base md:text-lg text-white">
+                          {stat.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
+
+          {/* Right: Visual Image */}
+          <div className="w-full lg:w-1/2">
+            <div className="aspect-[4/5] md:aspect-square w-full rounded-xs overflow-hidden border border-white/10 relative bg-obsidian">
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={activeData.id}
+                  src={activeData.image}
+                  alt={activeData.title}
+                  initial={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+                  animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, scale: 0.95, filter: 'blur(5px)' }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </AnimatePresence>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0804] via-transparent to-transparent opacity-60 z-10 pointer-events-none" />
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
