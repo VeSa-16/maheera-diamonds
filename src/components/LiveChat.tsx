@@ -74,7 +74,7 @@ export default function LiveChat() {
         <MessageSquare className="w-5 h-5 stroke-[1.5]" />
         
         {/* Expandable text on hover */}
-        <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isHovered ? 'max-w-[120px] ml-1' : 'max-w-0 ml-0'}`}>
+        <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isHovered ? 'max-w- mx-auto ml-1' : 'max-w-0 ml-0'}`}>
           <span className="font-display text-[9px] uppercase tracking-widest whitespace-nowrap">
             Concierge
           </span>
@@ -123,14 +123,14 @@ export default function LiveChat() {
                   className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div 
-                    className={`max-w-[85%] p-3 text-[13px] font-sans font-light leading-relaxed ${
+                    className={`max-w- mx-auto%] p-3 text-[13px] font-sans font-light leading-relaxed ${
                       msg.sender === 'user' 
                         ? 'bg-antique-gold/10 text-white border border-antique-gold/20 rounded-t-xl rounded-l-xl' 
                         : 'bg-white/5 text-gray-200 border border-white/5 rounded-t-xl rounded-r-xl'
                     }`}
                   >
                     {msg.text}
-                    <div className={`text-[9px] mt-2 opacity-50 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
+                    <div className={`text-[9px] mt-2 opacity-50 ${msg.sender === 'user' ? 'text-right' : 'text-center'}`}>
                       {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </div>

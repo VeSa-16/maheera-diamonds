@@ -107,7 +107,7 @@ export default function JewelryCategories({ onExplore }: JewelryCategoriesProps)
                   {cat.title}
                 </h3>
                 
-                <p className="text-stone-300 text-[11px] sm:text-xs md:text-sm font-light font-sans leading-relaxed max-w-md pb-3 md:pb-4">
+                <p className="text-stone-300 text-[11px] sm:text-xs md:text-sm font-light font-sans leading-relaxed max-w- mx-auto pb-3 md:pb-4">
                   {cat.description}
                 </p>
 

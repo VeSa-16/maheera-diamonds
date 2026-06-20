@@ -104,7 +104,7 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="relative w-full max-w-md h-full bg-warm-ivory shadow-2xl flex flex-col overflow-y-auto border-l border-antique-gold"
+            className="relative w-full max-w- mx-auto h-full bg-warm-ivory shadow-2xl flex flex-col overflow-y-auto border-l border-antique-gold"
           >
             <div className="p-8 flex-grow">
               {/* Close Button */}
@@ -117,23 +117,23 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
               </button>
 
               {submitted ? (
-                <div className="py-16 text-left animate-fade-in flex flex-col items-start justify-center h-full">
+                <div className="py-16 text-center animate-fade-in flex flex-col items-start justify-center h-full">
                   <div className="flex items-center justify-center h-16 w-16 rounded-full bg-blush-rose border border-champagne mb-6">
                     <Check className="h-6 w-6 text-antique-gold" />
                   </div>
                   <h2 className="font-serif text-3xl tracking-wider text-obsidian font-light mb-4">
                     Your Private Invitation Secured
                   </h2>
-                  <p className="max-w-md text-sm text-slate-charcoal tracking-relaxed font-light leading-relaxed leading-[1.8] text-left">
+                  <p className="max-w- mx-auto text-sm text-slate-charcoal tracking-relaxed font-light leading-relaxed leading-[1.8] text-center">
                     Thank you, <span className="font-medium text-obsidian">{form.name}</span>. A Maheera Diamonds private salon concierge is preparing details. We will confirm your session at <span className="font-medium text-obsidian">{form.time} on {form.date}</span> via your preferred channel (<span className="text-antique-gold font-medium uppercase">{form.preferredContact}</span>).
                   </p>
-                  <p className="text-[10px] text-antique-gold mt-6 tracking-[0.2em] uppercase text-left font-display">
+                  <p className="text-[10px] text-antique-gold mt-6 tracking-[0.2em] uppercase text-center font-display">
                     PUNE • MUMBAI • DELHI • DUBAI
                   </p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-8 mt-4">
-                  <div className="text-left">
+                  <div className="text-center">
                     <p className="text-[9px] tracking-[0.3em] text-antique-gold uppercase font-display leading-none mb-3">
                       Reserved Showrooms & Consultation
                     </p>

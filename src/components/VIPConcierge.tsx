@@ -23,7 +23,7 @@ export default function VIPConcierge({ onOpenBooking }: { onOpenBooking: () => v
             <h2 className="font-serif text-3xl md:text-5xl font-light tracking-wide text-white leading-tight">
               The Maheera Concierge
             </h2>
-            <p className="text-gray-400 font-sans font-light text-sm leading-relaxed max-w-lg">
+            <p className="text-gray-400 font-sans font-light text-sm leading-relaxed max-w- mx-auto">
               For high-net-worth acquisitions and bespoke commissions, our private concierge handles everything from secure transport to private viewing sessions in your preferred location.
             </p>
 
@@ -65,7 +65,7 @@ export default function VIPConcierge({ onOpenBooking }: { onOpenBooking: () => v
                   {feature.icon}
                 </div>
                 <h4 className="font-serif text-lg text-white">{feature.title}</h4>
-                <p className="font-sans text-[11px] text-gray-500 leading-relaxed max-w-[200px]">
+                <p className="font-sans text-[11px] text-gray-500 leading-relaxed max-w- mx-auto">
                   {feature.desc}
                 </p>
               </motion.div>

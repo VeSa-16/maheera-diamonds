@@ -129,7 +129,7 @@ export default function Masterclass4C() {
                   <h3 className="font-serif text-3xl md:text-4xl text-white font-light">
                     {activeData.title}
                   </h3>
-                  <p className="text-gray-400 font-sans font-light leading-relaxed text-sm max-w-md">
+                  <p className="text-gray-400 font-sans font-light leading-relaxed text-sm max-w- mx-auto">
                     {activeData.description}
                   </p>
 

@@ -46,7 +46,7 @@ export default function Footer({ onPageChange }: FooterProps) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-0 lg:divide-x lg:divide-antique-gold/20 py-[64px] md:py-[80px] border-b border-antique-gold/20">
           
           {/* COLUMN 1: Brand & Contact */}
-          <div className="space-y-8 lg:pr-12 text-left">
+          <div className="space-y-8 lg:pr-12 text-center">
             <div className="flex items-center">
               <BrandLogo size={40} showText={true} textColor="text-champagne" />
             </div>
@@ -76,7 +76,7 @@ export default function Footer({ onPageChange }: FooterProps) {
           </div>
 
           {/* COLUMN 2: Navigation */}
-          <div className="space-y-8 lg:px-12 text-left">
+          <div className="space-y-8 lg:px-12 text-center">
             <h4 className="font-serif text-[14px] md:text-[16px] text-antique-gold tracking-[0.25em] uppercase font-medium">
               Navigation
             </h4>
@@ -93,7 +93,7 @@ export default function Footer({ onPageChange }: FooterProps) {
                   <li key={idx}>
                     <button
                       onClick={link.action}
-                      className="text-platinum hover:text-champagne transition-colors duration-300 cursor-pointer flex items-center group text-left"
+                      className="text-platinum hover:text-champagne transition-colors duration-300 cursor-pointer flex items-center group text-center"
                     >
                       <span className="relative">
                         {link.label}
@@ -110,7 +110,7 @@ export default function Footer({ onPageChange }: FooterProps) {
                   <li key={idx}>
                     <button
                       onClick={() => handleQuickLink('catalogue')}
-                      className="text-platinum hover:text-champagne transition-colors duration-300 cursor-pointer flex items-center group text-left"
+                      className="text-platinum hover:text-champagne transition-colors duration-300 cursor-pointer flex items-center group text-center"
                     >
                       <span className="relative">
                         {col}
@@ -137,7 +137,7 @@ export default function Footer({ onPageChange }: FooterProps) {
           </div>
 
           {/* COLUMN 3: Newsletter */}
-          <div className="space-y-6 lg:pl-12 text-left">
+          <div className="space-y-6 lg:pl-12 text-center">
             <span className="text-antique-gold font-serif tracking-[0.25em] text-[10px] uppercase font-medium flex items-center gap-1.5 leading-none">
               <Sparkles className="w-3.5 h-3.5" />
               THE PRIVATE ATELIER CIRCLE
@@ -179,7 +179,7 @@ export default function Footer({ onPageChange }: FooterProps) {
                   key="success"
                   initial={{ opacity: 0, scale: 0.98, y: 10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
-                  className="pt-4 text-left space-y-2"
+                  className="pt-4 text-center space-y-2"
                 >
                   <span className="text-antique-gold font-serif text-[11px] tracking-widest uppercase block font-medium">
                     YOUR INTAKE STATUS ISSUED SUCCESSFULLY
@@ -195,11 +195,11 @@ export default function Footer({ onPageChange }: FooterProps) {
         </div>
 
         {/* BOTTOM BAR: Copyright Information */}
-        <div className="pt-10 flex flex-col sm:flex-row justify-between items-start sm:items-center text-[10px] text-platinum space-y-4 sm:space-y-0 text-left select-none">
-          <p className="font-serif italic text-[16px] text-[#FAF7F2]/40 text-left">
+        <div className="pt-10 flex flex-col sm:flex-row justify-between items-start sm:items-center text-[10px] text-platinum space-y-4 sm:space-y-0 text-center select-none">
+          <p className="font-serif italic text-[16px] text-[#FAF7F2]/40 text-center">
             Handcrafted in Pune. Since 1928.
           </p>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-left">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-center">
             <p className="font-medium uppercase tracking-[0.1em] text-[9.5px]">
               &copy; {new Date().getFullYear()} Maheera Diamonds. All Rights Reserved.
             </p>

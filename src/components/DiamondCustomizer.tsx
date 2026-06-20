@@ -117,7 +117,7 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         
         {/* Title Group */}
-        <div className="text-left mb-16">
+        <div className="text-center mb-16">
           <p className="text-[10px] tracking-[0.34em] text-antique-gold uppercase font-display mb-3">
             The Virtual Atelier
           </p>
@@ -125,7 +125,7 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
             Design Your Bespoke Vow
           </h3>
           <div className="w-12 h-[1px] bg-antique-gold ml-0 mt-6 mb-4" />
-          <p className="max-w-lg text-xs text-stone-300 leading-relaxed font-light">
+          <p className="max-w- mx-auto text-xs text-stone-300 leading-relaxed font-light">
             Every gemstone masterpiece is engineered upon your desire. Choose our settings, fine-tune the carat, metal, and clarity, and witness your crown animate instantly.
           </p>
         </div>
@@ -137,7 +137,7 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
           <div className="lg:col-span-5 h-[480px] md:h-[550px] bg-white/5 rounded-xs border border-white/10 flex flex-col justify-between p-8 relative overflow-hidden group">
             
             {/* Absolute Brand background watermarks */}
-            <div className="absolute top-8 left-8 text-left select-none opacity-20">
+            <div className="absolute top-8 left-8 text-center select-none opacity-20">
               <span className="font-serif text-xs text-antique-gold block tracking-widest font-light">MAHEERA</span>
               <span className="font-display text-[7px] text-antique-gold block tracking-widest font-extralight uppercase">BESPOKE CHASSIS</span>
             </div>
@@ -245,7 +245,7 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
                       <button
                         key={metal.id}
                         onClick={() => setConfig({ ...config, metal: metal.id })}
-                        className={`p-5 text-left border rounded-xs transition-all duration-300 flex items-center space-x-4 cursor-pointer ${
+                        className={`p-5 text-center border rounded-xs transition-all duration-300 flex items-center space-x-4 cursor-pointer ${
                           config.metal === metal.id
                             ? 'border-antique-gold bg-white/10 shadow-md ring-1 ring-antique-gold text-white'
                             : 'border-white/10 hover:border-antique-gold/50 bg-white/5 text-stone-300'
@@ -283,7 +283,7 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
                       <button
                         key={setting.id}
                         onClick={() => setConfig({ ...config, setting: setting.id })}
-                        className={`p-4 border text-left rounded-xs transition-all duration-300 flex flex-col justify-between cursor-pointer ${
+                        className={`p-4 border text-center rounded-xs transition-all duration-300 flex flex-col justify-between cursor-pointer ${
                           config.setting === setting.id
                             ? 'border-antique-gold bg-white/10 shadow-md ring-1 ring-antique-gold text-white'
                             : 'border-white/10 hover:border-antique-gold/50 bg-white/5 text-stone-300'

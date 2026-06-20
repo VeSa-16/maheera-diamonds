@@ -81,7 +81,7 @@ export default function BespokeTimeline() {
               <h4 className="font-serif text-xl text-white tracking-wide mb-3 relative z-10">
                 {step.title}
               </h4>
-              <p className="text-gray-400 font-sans text-xs leading-relaxed max-w-[240px] relative z-10">
+              <p className="text-gray-400 font-sans text-xs leading-relaxed max-w- mx-auto relative z-10">
                 {step.desc}
               </p>
             </motion.div>

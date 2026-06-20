@@ -67,7 +67,7 @@ function ProductCard({
       </div>
 
       {/* Card descriptions info */}
-      <div className="pt-2 pb-1 text-left relative">
+      <div className="pt-2 pb-1 text-center relative">
         <span className="font-display text-[9px] tracking-widest text-[#C8A96B] uppercase block font-light mb-1">
           {product.metal || 'PLATINUM & DIAMONDS'}
         </span>
@@ -161,7 +161,7 @@ export default function ProductCatalog({
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         
         {/* Categories filters menu center */}
-        <div className="text-left space-y-6 mb-16">
+        <div className="text-center space-y-6 mb-16">
           <p className="text-[10px] tracking-[0.3em] font-display text-antique-gold uppercase leading-none block">
             HOUSE SELECTION CATALOG
           </p>
@@ -253,7 +253,7 @@ export default function ProductCatalog({
           />
           <div className="fixed inset-0" onClick={() => setQuickLookProduct(null)} />
           
-          <div className="relative w-full max-w-4xl bg-obsidian border border-gold-900/40 p-6 md:p-12 shadow-2xl rounded-xs z-10 animate-fade-in flex flex-col md:flex-row gap-8 md:gap-12 text-xs">
+          <div className="relative w-full max-w- mx-auto bg-obsidian border border-gold-900/40 p-6 md:p-12 shadow-2xl rounded-xs z-10 animate-fade-in flex flex-col md:flex-row gap-8 md:gap-12 text-xs">
             {/* Close button */}
             <button
               aria-label="Close product view"

@@ -28,7 +28,7 @@ export default function Testimonials() {
       {/* Decorative vector background lines */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-blush-rose/30 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10 text-left">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10 text-center">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -38,7 +38,7 @@ export default function Testimonials() {
         >
         
         {/* Title Block */}
-        <div className="text-left space-y-3 mb-12">
+        <div className="text-center space-y-3 mb-12">
           <p style={{ fontSize: '11px', fontVariant: 'small-caps', letterSpacing: '0.04em', color: 'var(--antique-gold)', fontWeight: 400 }} className="font-display select-none">
             Heritage Stories
           </p>
@@ -56,12 +56,12 @@ export default function Testimonials() {
                 activeIndex === idx ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
               }`}
             >
-              <p className="font-serif text-xl md:text-[28px] italic font-light tracking-wide text-obsidian leading-relaxed max-w-2xl text-left mb-8">
+              <p className="font-serif text-xl md:text-[28px] italic font-light tracking-wide text-obsidian leading-relaxed max-w- mx-auto text-center mb-8">
                 {testimonial.quote}
               </p>
 
               {/* Author details */}
-              <div className="space-y-1 text-left mt-auto">
+              <div className="space-y-1 text-center mt-auto">
                 <h5 className="font-display text-[10px] md:text-xs tracking-[0.3em] font-medium text-obsidian uppercase">
                   {testimonial.author}
                 </h5>

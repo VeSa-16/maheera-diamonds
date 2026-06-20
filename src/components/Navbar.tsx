@@ -271,7 +271,7 @@ export default function Navbar({
                       setMegaMenuOpen(false);
                       onPageChange(item.id);
                     }}
-                    className={`group text-left transition-all cursor-pointer ${
+                    className={`group text-center transition-all cursor-pointer ${
                       currentPage === item.id || hoveredLink === item.id ? 'opacity-100' : 'opacity-40 hover:opacity-100'
                     }`}
                   >

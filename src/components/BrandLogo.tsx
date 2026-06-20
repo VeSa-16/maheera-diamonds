@@ -24,7 +24,7 @@ export default function BrandLogo({
       </div>
 
       {showText && (
-        <div className="flex flex-col select-none text-left">
+        <div className="flex flex-col select-none text-center">
           <span 
             className={`font-serif tracking-[0.2em] font-normal leading-none ${textColor}`}
             style={{ fontSize: `${Math.max(11, (size - 10) * 0.45)}px` }}

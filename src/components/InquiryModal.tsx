@@ -107,7 +107,7 @@ export default function InquiryModal({ isOpen, onClose, product, customConfig, e
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: '100%', opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-lg bg-warm-ivory shadow-2xl p-8 sm:rounded-sm border border-antique-gold/30 mt-auto sm:mt-0 max-h-[90vh] overflow-y-auto"
+            className="relative w-full max-w- mx-auto bg-warm-ivory shadow-2xl p-8 sm:rounded-sm border border-antique-gold/30 mt-auto sm:mt-0 max-h-[90vh] overflow-y-auto"
           >
             <button
               onClick={onClose}
@@ -116,7 +116,7 @@ export default function InquiryModal({ isOpen, onClose, product, customConfig, e
               <X className="w-5 h-5 stroke-[1.5]" />
             </button>
 
-            <div className="text-left mb-8">
+            <div className="text-center mb-8">
               <p className="text-[9px] tracking-[0.3em] text-antique-gold uppercase font-display leading-none mb-3 flex items-center gap-1.5">
                 <Sparkles className="w-3 h-3" />
                 Private Liaison
@@ -124,7 +124,7 @@ export default function InquiryModal({ isOpen, onClose, product, customConfig, e
               <h2 className="font-serif text-3xl tracking-wider text-obsidian font-light leading-snug">
                 {customConfig ? 'Enquire This Design' : 'Enquire on WhatsApp'}
               </h2>
-              <p className="text-[11px] text-gray-500 max-w-sm leading-relaxed text-left mt-3">
+              <p className="text-[11px] text-gray-500 max-w- mx-auto leading-relaxed text-center mt-3">
                 {customConfig 
                   ? 'Connect with our master jewelers to discuss sourcing and crafting your bespoke piece.'
                   : 'Speak directly with our concierge team regarding availability, sizing, or private viewing.'}

@@ -37,7 +37,7 @@ export default function StorySection() {
             transition={{ duration: 1.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="w-full lg:w-6/12 flex flex-col justify-center lg:pt-24"
           >
-            <div className="space-y-12 max-w-lg">
+            <div className="space-y-12 max-w- mx-auto">
               
               <div className="space-y-4">
                 <span 

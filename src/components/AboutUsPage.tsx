@@ -34,7 +34,7 @@ export default function AboutUsPage() {
   return (
     <div id="about-page" className="bg-warm-ivory text-obsidian selection:bg-blush-rose min-h-screen pt-[80px] md:pt-[140px] pb-[64px] md:pb-[120px]">
       {/* Hero Section */}
-      <section className="relative py-[64px] md:py-[120px] px-6 md:px-8 overflow-hidden text-left max-w-7xl mx-auto">
+      <section className="relative py-[64px] md:py-[120px] px-6 md:px-8 overflow-hidden text-center max-w-7xl mx-auto">
         {/* Subtle gold ray gradient */}
         <div className="absolute top-0 left-10 w-72 h-72 bg-champagne/10 blur-3D rounded-full pointer-events-none" />
 
@@ -42,15 +42,15 @@ export default function AboutUsPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="space-y-6 text-left"
+          className="space-y-6 text-center"
         >
           <span className="text-[10px] tracking-[0.4em] text-antique-gold uppercase font-display font-medium block">
             HOUSE MISSION
           </span>
-          <h1 className="font-serif text-4xl md:text-6xl font-extralight tracking-wide text-obsidian leading-tight text-left">
+          <h1 className="font-serif text-4xl md:text-6xl font-extralight tracking-wide text-obsidian leading-tight text-center">
             Crafting timeless elegance.
           </h1>
-          <p className="font-serif text-sm md:text-lg italic text-slate-charcoal max-w-2xl">
+          <p className="font-serif text-sm md:text-lg italic text-slate-charcoal max-w- mx-auto">
             “Where luxury meets emotion and craftsmanship.”
           </p>
           <div className="w-12 h-[1px] bg-champagne ml-0 pt-1" />
@@ -71,18 +71,18 @@ export default function AboutUsPage() {
       </section>
 
       {/* Legacy of Refraction Quote Block */}
-      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-16 md:mb-[120px] text-left space-y-6">
+      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-16 md:mb-[120px] text-center space-y-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.98, y: 15 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="space-y-6 text-left"
+          className="space-y-6 text-center"
         >
           <span className="text-[10px] tracking-[0.35em] text-antique-gold font-display uppercase leading-none block">
             A Legacy of Refraction
           </span>
-          <h2 className="text-2xl md:text-4xl font-serif italic font-light tracking-wide text-obsidian block leading-snug max-w-3xl text-left">
+          <h2 className="text-2xl md:text-4xl font-serif italic font-light tracking-wide text-obsidian block leading-snug max-w- mx-auto text-center">
             “A jewelry masterpiece does not simply reflect light; it encapsulates a lifelong emotional promise, written in Carbon and Platinum.”
           </h2>
           <div className="w-12 h-[1px] bg-champagne ml-0 mt-6" />
@@ -99,7 +99,7 @@ export default function AboutUsPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="space-y-6 text-left"
+          className="space-y-6 text-center"
         >
           <h2 className="font-serif text-3xl md:text-4xl text-obsidian font-light tracking-wide">
             Our Story
@@ -107,7 +107,7 @@ export default function AboutUsPage() {
           <div className="w-12 h-[1px] bg-champagne ml-0" />
         </motion.div>
 
-        <div className="space-y-6 font-sans text-xs md:text-sm text-gray-600 font-light leading-relaxed text-left max-w-3xl">
+        <div className="space-y-6 font-sans text-xs md:text-sm text-gray-600 font-light leading-relaxed text-center max-w- mx-auto">
           <p>
             Maheera Diamonds was founded by <strong>Mehul Solanki</strong> with a vision to redefine modern luxury jewelry through elegance, craftsmanship, and timeless design. Under his personal artistic direction, each piece undergoes extensive layout refinements.
           </p>
@@ -123,14 +123,14 @@ export default function AboutUsPage() {
       {/* Mission Section Banner */}
       <section className="bg-obsidian text-warm-ivory py-[64px] md:py-[120px] px-6 md:px-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(197,160,89,0.08),transparent_50%)] pointer-events-none" />
-        <div className="max-w-7xl mx-auto text-left space-y-6 relative z-10 w-full">
+        <div className="max-w-7xl mx-auto text-center space-y-6 relative z-10 w-full">
           <span style={{ fontSize: '11px', fontVariant: 'small-caps', letterSpacing: '0.04em', color: 'var(--antique-gold)', fontWeight: 400 }} className="font-display uppercase">
             THE PHILOSOPHY
           </span>
           <h3 className="font-serif text-2xl md:text-3xl text-white font-light tracking-wide">
             Our Mission
           </h3>
-          <p className="font-serif text-lg md:text-2xl font-light italic text-[#EFE7DD] leading-relaxed max-w-2xl text-left">
+          <p className="font-serif text-lg md:text-2xl font-light italic text-[#EFE7DD] leading-relaxed max-w- mx-auto text-center">
             “To create meaningful luxury jewelry that empowers women to express confidence, elegance, and timeless beauty.”
           </p>
           <div className="w-12 h-[1px] bg-antique-gold ml-0" />
@@ -189,7 +189,7 @@ export default function AboutUsPage() {
       {/* Core Excellence Pillars */}
       <section className="bg-blush-rose/20 py-[64px] md:py-[120px] border-t border-b border-blush-rose">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
-          <div className="text-left mb-16 space-y-4">
+          <div className="text-center mb-16 space-y-4">
             <p style={{ fontSize: '11px', fontVariant: 'small-caps', letterSpacing: '0.04em', color: 'var(--antique-gold)', fontWeight: 400 }} className="font-display select-none">
               GUARANTEED STANDARDS
             </p>

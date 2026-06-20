@@ -89,7 +89,7 @@ export default function WhyChooseUs() {
                     <h4 className="font-serif text-2xl lg:text-3xl text-white tracking-wide font-light mb-3 group-hover:text-champagne transition-colors duration-300">
                       {v.title}
                     </h4>
-                    <p className="text-[12px] md:text-[13px] text-platinum leading-relaxed font-light font-sans max-w-sm text-left">
+                    <p className="text-[12px] md:text-[13px] text-platinum leading-relaxed font-light font-sans max-w- mx-auto text-center">
                       {v.desc}
                     </p>
                   </div>

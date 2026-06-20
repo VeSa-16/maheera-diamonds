@@ -121,12 +121,12 @@ export default function CataloguePage({
   return (
     <div id="catalogue-page" className="bg-warm-ivory text-obsidian selection:bg-blush-rose min-h-screen pt-[80px] md:pt-[140px] pb-[64px] md:pb-[120px]">
       {/* Hero Section */}
-      <section className="relative py-[64px] md:py-[120px] px-6 md:px-8 text-left max-w-7xl mx-auto overflow-hidden">
+      <section className="relative py-[64px] md:py-[120px] px-6 md:px-8 text-center max-w-7xl mx-auto overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="space-y-6 text-left"
+          className="space-y-6 text-center"
         >
           <span className="text-[10px] tracking-[0.4em] text-antique-gold uppercase font-display font-medium block">
             THE BOUTIQUE CATALOGUE
@@ -134,7 +134,7 @@ export default function CataloguePage({
           <h1 className="font-serif text-4xl md:text-6xl font-extralight tracking-wide text-obsidian leading-tight">
             Explore Our Collections
           </h1>
-          <p className="font-serif text-sm md:text-lg italic text-slate-charcoal max-w-2xl leading-relaxed">
+          <p className="font-serif text-sm md:text-lg italic text-slate-charcoal max-w- mx-auto leading-relaxed">
             Luxury jewelry designed for timeless elegance.
           </p>
           <div className="w-12 h-[1px] bg-champagne ml-0" />
@@ -244,11 +244,11 @@ export default function CataloguePage({
         </div>
 
         {/* Selected category statement header */}
-        <div className="mt-8 text-left bg-blush-rose/20 p-6 border-l-2 border-antique-gold">
-          <h3 className="font-serif text-lg md:text-xl text-obsidian font-light text-left">
+        <div className="mt-8 text-center bg-blush-rose/20 p-6 border-l-2 border-antique-gold">
+          <h3 className="font-serif text-lg md:text-xl text-obsidian font-light text-center">
             {categories.find((c) => c.id === selectedCategory)?.label}
           </h3>
-          <p className="text-[11px] text-slate-charcoal font-serif italic mt-1 text-left">
+          <p className="text-[11px] text-slate-charcoal font-serif italic mt-1 text-center">
             {categories.find((c) => c.id === selectedCategory)?.desc}
           </p>
         </div>
@@ -263,9 +263,9 @@ export default function CataloguePage({
             ))}
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div className="text-left p-8 md:p-12 py-[64px] md:py-[120px] space-y-4 bg-white border border-blush-rose rounded-xs">
+          <div className="text-center p-8 md:p-12 py-[64px] md:py-[120px] space-y-4 bg-white border border-blush-rose rounded-xs">
             <SlidersHorizontal className="w-8 h-8 text-champagne ml-0 opacity-60" />
-            <p className="font-serif text-base text-slate-charcoal text-left">None of our current creations match your chosen filter params.</p>
+            <p className="font-serif text-base text-slate-charcoal text-center">None of our current creations match your chosen filter params.</p>
             <button
               onClick={() => {
                 setSelectedCategory('all');
@@ -356,15 +356,15 @@ export default function CataloguePage({
                   </div>
 
                   {/* Content details Card */}
-                  <div className="space-y-3 text-left p-1">
-                    <div className="space-y-1 text-left">
-                      <span className="text-[7.5px] font-display text-antique-gold tracking-[0.25em] uppercase text-left block">
+                  <div className="space-y-3 text-center p-1">
+                    <div className="space-y-1 text-center">
+                      <span className="text-[7.5px] font-display text-antique-gold tracking-[0.25em] uppercase text-center block">
                         {p.category.toUpperCase()}
                       </span>
-                      <h4 className="font-serif text-[16px] text-obsidian font-light leading-none group-hover:text-antique-gold transition-colors text-left line-clamp-1">
+                      <h4 className="font-serif text-[16px] text-obsidian font-light leading-none group-hover:text-antique-gold transition-colors text-center line-clamp-1">
                         {p.name}
                       </h4>
-                      <p className="font-display text-[13px] text-obsidian font-medium text-left">
+                      <p className="font-display text-[13px] text-obsidian font-medium text-center">
                         ₹{p.price.toLocaleString('en-IN')}
                       </p>
                     </div>
@@ -445,7 +445,7 @@ export default function CataloguePage({
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="bg-white max-w-5xl w-full h-[90vh] md:h-auto md:max-h-[85vh] rounded-xs shadow-2xl relative overflow-y-auto border border-champagne"
+              className="bg-white max-w- mx-auto w-full h-[90vh] md:h-auto md:max-h-[85vh] rounded-xs shadow-2xl relative overflow-y-auto border border-champagne"
             >
               {/* Close top right */}
               <button
@@ -603,16 +603,16 @@ export default function CataloguePage({
                     </div>
 
                     {/* Trust Section Indicators */}
-                    <div className="grid grid-cols-3 gap-2 text-left text-gray-400 text-[8px] font-display tracking-widest uppercase pt-3 border-t border-blush-rose">
-                      <div className="space-y-1 text-left">
+                    <div className="grid grid-cols-3 gap-2 text-center text-gray-400 text-[8px] font-display tracking-widest uppercase pt-3 border-t border-blush-rose">
+                      <div className="space-y-1 text-center">
                         <Sparkles className="w-4 h-4 text-antique-gold ml-0" />
                         <span className="block text-slate-charcoal leading-tight">Certified Quality</span>
                       </div>
-                      <div className="space-y-1 border-l border-r border-blush-rose px-2 text-left">
+                      <div className="space-y-1 border-l border-r border-blush-rose px-2 text-center">
                         <Truck className="w-4 h-4 text-antique-gold ml-0" />
                         <span className="block text-slate-charcoal leading-tight">Secure Shipping</span>
                       </div>
-                      <div className="space-y-1 text-left">
+                      <div className="space-y-1 text-center">
                         <Gift className="w-4 h-4 text-antique-gold ml-0" />
                         <span className="block text-slate-charcoal leading-tight">Premium Packaging</span>
                       </div>

@@ -29,14 +29,14 @@ export default function ContactUsPage() {
   return (
     <div id="contact-page" className="bg-warm-ivory text-obsidian selection:bg-blush-rose min-h-screen pt-[80px] md:pt-[140px] pb-[64px] md:pb-[120px]">
       {/* Hero Section */}
-      <section className="relative py-[64px] md:py-[120px] px-6 md:px-8 text-left max-w-7xl mx-auto overflow-hidden">
+      <section className="relative py-[64px] md:py-[120px] px-6 md:px-8 text-center max-w-7xl mx-auto overflow-hidden">
         <div className="absolute top-0 left-10 w-64 h-64 bg-rose-200/5 blur-3D rounded-full pointer-events-none" />
         
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="space-y-6 text-left"
+          className="space-y-6 text-center"
         >
           <span className="text-[10px] tracking-[0.4em] text-antique-gold uppercase font-display font-medium block">
             PRIVATE LIAISON
@@ -44,7 +44,7 @@ export default function ContactUsPage() {
           <h1 className="font-serif text-4xl md:text-6xl font-extralight tracking-wide text-obsidian leading-tight">
             We would love to hear from you.
           </h1>
-          <p className="font-sans text-xs md:text-sm font-light text-gray-400 max-w-2xl leading-relaxed">
+          <p className="font-sans text-xs md:text-sm font-light text-gray-400 max-w- mx-auto leading-relaxed">
             Connect with Maheera Diamonds for inquiries, consultations, or personalized assistance.
           </p>
           <div className="w-12 h-[1px] bg-champagne ml-0" />
@@ -66,10 +66,10 @@ export default function ContactUsPage() {
               </p>
               
               {isSubmitted ? (
-                <div className="p-6 bg-blush-rose/50 border border-champagne/50 text-obsidian space-y-3 rounded-xs text-left">
+                <div className="p-6 bg-blush-rose/50 border border-champagne/50 text-obsidian space-y-3 rounded-xs text-center">
                   <CheckCircle className="w-8 h-8 text-antique-gold ml-0 stroke-[1.2]" />
                   <p className="font-serif text-sm font-medium">Liaison Request Registered Successfully</p>
-                  <p className="text-xs font-sans font-light text-slate-charcoal leading-relaxed text-left">
+                  <p className="text-xs font-sans font-light text-slate-charcoal leading-relaxed text-center">
                     A dedicated Maheera specialist has locked in your details. We will contact you shortly.
                   </p>
                 </div>
@@ -209,7 +209,7 @@ export default function ContactUsPage() {
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/5 text-[9px] text-slate-charcoal tracking-widest font-mono text-left relative z-10 uppercase">
+            <div className="mt-8 pt-6 border-t border-white/5 text-[9px] text-slate-charcoal tracking-widest font-mono text-center relative z-10 uppercase">
               Pune, India
             </div>
           </div>
@@ -220,14 +220,14 @@ export default function ContactUsPage() {
       {/* WhatsApp Consultation Banner */}
       <section className="max-w-7xl mx-auto px-6 md:px-8 mb-16 md:mb-[120px]">
         <div className="bg-[#EFE7DD] py-12 px-8 md:px-16 border border-champagne/50 text-obsidian rounded-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden shadow-xs">
-          <div className="space-y-2 text-left relative z-10 max-w-xl">
+          <div className="space-y-2 text-center relative z-10 max-w- mx-auto">
             <span style={{ fontSize: '11px', fontVariant: 'small-caps', letterSpacing: '0.04em', color: '#C8A96B', fontWeight: 400 }} className="font-display block">
               INSTANT CONNECTIVITY
             </span>
             <h3 className="font-serif text-xl md:text-2xl text-obsidian font-light">
               Need personalized assistance?
             </h3>
-            <p className="text-xs text-gray-600 font-sans font-light text-left">
+            <p className="text-xs text-gray-600 font-sans font-light text-center">
               We provide immediate support on sizing, diamonds availability, and local showroom hours.
             </p>
           </div>
@@ -242,7 +242,7 @@ export default function ContactUsPage() {
 
       {/* Google Maps Section */}
       <section className="max-w-7xl mx-auto px-6 md:px-8">
-        <div className="space-y-6 text-left mb-10">
+        <div className="space-y-6 text-center mb-10">
           <span className="text-[10px] tracking-[0.3em] text-antique-gold uppercase font-display block">
             VISIT OUR PUNE FLAGSHIP ATELIER
           </span>

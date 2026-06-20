@@ -31,9 +31,9 @@ export default function CartOverlay({
         onClick={onClose}
       />
 
-      <div className="absolute inset-y-0 right-0 max-w-full flex">
+      <div className="absolute inset-y-0 right-0 max-w- mx-auto flex">
         {/* Sliding card panel */}
-        <div className="w-screen max-w-md bg-warm-ivory border-l border-blush-rose flex flex-col shadow-2xl">
+        <div className="w-screen max-w- mx-auto bg-warm-ivory border-l border-blush-rose flex flex-col shadow-2xl">
           
           {/* Header */}
           <div className="p-6 border-b border-blush-rose flex justify-between items-center bg-blush-rose/20">
@@ -56,9 +56,9 @@ export default function CartOverlay({
           {/* Cart Content body list */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
             {cartItems.length === 0 ? (
-              <div className="h-full flex flex-col items-start justify-center text-left px-4">
-                <p className="font-serif text-lg text-gray-400 italic mb-3 text-left">Your Maheera vault is empty...</p>
-                <p className="text-xs text-gray-400 font-light leading-relaxed max-w-xs text-left">
+              <div className="h-full flex flex-col items-start justify-center text-center px-4">
+                <p className="font-serif text-lg text-gray-400 italic mb-3 text-center">Your Maheera vault is empty...</p>
+                <p className="text-xs text-gray-400 font-light leading-relaxed max-w- mx-auto text-center">
                   Begin your romantic journey by exploring our crafted collections or designing a bespoke gemstone masterpiece.
                 </p>
                 <button

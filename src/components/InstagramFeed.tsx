@@ -93,7 +93,7 @@ export default function InstagramFeed() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="text-left mb-12 space-y-4"
+          className="text-center mb-12 space-y-4"
         >
           <p style={{ fontSize: '11px', fontVariant: 'small-caps', letterSpacing: '0.04em', color: 'var(--antique-gold)', fontWeight: 400 }} className="font-display leading-none">
             Curated Atmospheres
@@ -101,7 +101,7 @@ export default function InstagramFeed() {
           <h3 className="font-serif text-3xl md:text-5xl text-obsidian font-light tracking-wide">
             The Digital Salon
           </h3>
-          <p className="text-xs text-gray-400 font-light max-w-sm">
+          <p className="text-xs text-gray-400 font-light max-w- mx-auto">
             Glimpse the liquid prisms and styling narratives curated daily by our Pune creative studio.
           </p>
         </motion.div>
