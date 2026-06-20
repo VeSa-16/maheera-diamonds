@@ -1,5 +1,10 @@
 # Maheera Diamonds
 
+> [!CAUTION]
+> **STRICTLY CONFIDENTIAL & PROPRIETARY**
+> This repository and its contents are the exclusive property of Maheera Diamonds. Unauthorized distribution, copying, or disclosure of this codebase, via any medium, is strictly prohibited. For internal use only.
+
+
 ![Maheera Diamonds](https://maheeradiamonds.com/og-image.jpg)
 
 Maheera Diamonds is a luxury, ultra-premium e-commerce platform designed to offer an immersive, high-end shopping experience for GIA-certified diamond jewelry. Built with a focus on deep aesthetic symmetry, cinematic animations, and cutting-edge 3D product visualization.
