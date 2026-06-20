@@ -81,7 +81,7 @@ export default function Footer({ onPageChange }: FooterProps) {
               Navigation
             </h4>
             
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               {/* Quick Links */}
               <ul className="space-y-4 list-none pl-0 text-[11px] font-sans tracking-widest uppercase">
                 {[

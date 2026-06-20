@@ -34,7 +34,7 @@ export default function AboutUsPage() {
   return (
     <div id="about-page" className="bg-warm-ivory text-obsidian selection:bg-blush-rose min-h-screen pt-[80px] md:pt-[140px] pb-[64px] md:pb-[120px]">
       {/* Hero Section */}
-      <section className="relative py-[64px] md:py-[120px] px-6 md:px-8 overflow-hidden text-center max-w-7xl mx-auto">
+      <section className="relative py-12 md:py-24 px-6 md:px-8 overflow-hidden text-center max-w-7xl mx-auto">
         {/* Subtle gold ray gradient */}
         <div className="absolute top-0 left-10 w-72 h-72 bg-champagne/10 blur-3D rounded-full pointer-events-none" />
 
@@ -47,7 +47,7 @@ export default function AboutUsPage() {
           <span className="text-[10px] tracking-[0.4em] text-antique-gold uppercase font-display font-medium block">
             HOUSE MISSION
           </span>
-          <h1 className="font-serif text-4xl md:text-6xl font-extralight tracking-wide text-obsidian leading-tight text-center">
+          <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl font-extralight tracking-wide text-obsidian leading-tight text-center">
             Crafting timeless elegance.
           </h1>
           <p className="font-serif text-sm md:text-lg italic text-slate-charcoal max-w- mx-auto">
@@ -58,7 +58,7 @@ export default function AboutUsPage() {
       </section>
 
       {/* Visual Banner Split */}
-      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-16 md:mb-[120px]">
+      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-12 md:mb-24">
         <div className="h-[350px] md:h-[480px] rounded-xs overflow-hidden relative shadow-lg">
           <img
             src="https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=1600&h=800&q=85"
@@ -71,7 +71,7 @@ export default function AboutUsPage() {
       </section>
 
       {/* Legacy of Refraction Quote Block */}
-      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-16 md:mb-[120px] text-center space-y-6">
+      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-12 md:mb-24 text-center space-y-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.98, y: 15 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -93,7 +93,7 @@ export default function AboutUsPage() {
       </section>
 
       {/* Our Story Section */}
-      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-16 md:mb-[120px] space-y-8">
+      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-12 md:mb-24 space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -121,7 +121,7 @@ export default function AboutUsPage() {
       </section>
 
       {/* Mission Section Banner */}
-      <section className="bg-obsidian text-warm-ivory py-[64px] md:py-[120px] px-6 md:px-8 relative overflow-hidden">
+      <section className="bg-obsidian text-warm-ivory py-12 md:py-24 px-6 md:px-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(197,160,89,0.08),transparent_50%)] pointer-events-none" />
         <div className="max-w-7xl mx-auto text-center space-y-6 relative z-10 w-full">
           <span style={{ fontSize: '11px', fontVariant: 'small-caps', letterSpacing: '0.04em', color: 'var(--antique-gold)', fontWeight: 400 }} className="font-display uppercase">
@@ -138,7 +138,7 @@ export default function AboutUsPage() {
       </section>
 
       {/* Craftsmanship Section */}
-      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-16 md:mb-[120px]">
+      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-12 md:mb-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <span className="text-[10px] tracking-[0.3em] text-antique-gold uppercase font-display font-medium block">
@@ -187,7 +187,7 @@ export default function AboutUsPage() {
       </section>
 
       {/* Core Excellence Pillars */}
-      <section className="bg-blush-rose/20 py-[64px] md:py-[120px] border-t border-b border-blush-rose">
+      <section className="bg-blush-rose/20 py-12 md:py-24 border-t border-b border-blush-rose">
         <div className="max-w-7xl mx-auto px-6 md:px-8">
           <div className="text-center mb-16 space-y-4">
             <p style={{ fontSize: '11px', fontVariant: 'small-caps', letterSpacing: '0.04em', color: 'var(--antique-gold)', fontWeight: 400 }} className="font-display select-none">

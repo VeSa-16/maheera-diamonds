@@ -210,7 +210,7 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
                     </div>
 
                     {/* Appointment Parameters */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-[10px] font-display tracking-widest text-obsidian uppercase mb-2">
                           DATE DESIRED *

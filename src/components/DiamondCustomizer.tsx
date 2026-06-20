@@ -205,7 +205,7 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
                     <h4 className="font-serif text-[15px] font-medium text-white uppercase tracking-wider">Select Center Diamond Shape</h4>
                   </div>
                   
-                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-5 gap-3">
                     {DIAMOND_SHAPES.map((shape) => {
                       const isSelected = config.shape === shape.id;
                       return (

@@ -121,7 +121,7 @@ export default function CataloguePage({
   return (
     <div id="catalogue-page" className="bg-warm-ivory text-obsidian selection:bg-blush-rose min-h-screen pt-[80px] md:pt-[140px] pb-[64px] md:pb-[120px]">
       {/* Hero Section */}
-      <section className="relative py-[64px] md:py-[120px] px-6 md:px-8 text-center max-w-7xl mx-auto overflow-hidden">
+      <section className="relative py-12 md:py-24 px-6 md:px-8 text-center max-w-7xl mx-auto overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -131,7 +131,7 @@ export default function CataloguePage({
           <span className="text-[10px] tracking-[0.4em] text-antique-gold uppercase font-display font-medium block">
             THE BOUTIQUE CATALOGUE
           </span>
-          <h1 className="font-serif text-4xl md:text-6xl font-extralight tracking-wide text-obsidian leading-tight">
+          <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl font-extralight tracking-wide text-obsidian leading-tight">
             Explore Our Collections
           </h1>
           <p className="font-serif text-sm md:text-lg italic text-slate-charcoal max-w- mx-auto leading-relaxed">
@@ -255,15 +255,15 @@ export default function CataloguePage({
       </section>
 
       {/* Products Grid Section */}
-      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-16 md:mb-[120px]">
+      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-12 md:mb-24">
         {isLoading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
               <div key={i} className="aspect-[4/5] w-full bg-platinum skeleton-loader rounded-lg" />
             ))}
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div className="text-center p-8 md:p-12 py-[64px] md:py-[120px] space-y-4 bg-white border border-blush-rose rounded-xs">
+          <div className="text-center p-8 md:p-12 py-12 md:py-24 space-y-4 bg-white border border-blush-rose rounded-xs">
             <SlidersHorizontal className="w-8 h-8 text-champagne ml-0 opacity-60" />
             <p className="font-serif text-base text-slate-charcoal text-center">None of our current creations match your chosen filter params.</p>
             <button
@@ -279,7 +279,7 @@ export default function CataloguePage({
             </button>
           </div>
         ) : (
-          <div id="catalog-cards-grid" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12">
+          <div id="catalog-cards-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12">
             {filteredProducts.map((p) => {
               const isFav = favorites.includes(p.id);
               const isAdded = addedItems[p.id];

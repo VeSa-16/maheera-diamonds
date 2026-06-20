@@ -107,7 +107,7 @@ export default function InstagramFeed() {
         </motion.div>
 
         {/* Gallery grid of 6 - asymmetric layout */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 [&>*:nth-child(3)]:row-span-2 auto-rows-[200px] md:auto-rows-[280px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 [&>*:nth-child(3)]:row-span-2 auto-rows-[200px] md:auto-rows-[280px]">
           {INSTA_POSTS.map((post, idx) => (
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}

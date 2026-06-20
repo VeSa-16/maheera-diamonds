@@ -29,7 +29,7 @@ export default function ContactUsPage() {
   return (
     <div id="contact-page" className="bg-warm-ivory text-obsidian selection:bg-blush-rose min-h-screen pt-[80px] md:pt-[140px] pb-[64px] md:pb-[120px]">
       {/* Hero Section */}
-      <section className="relative py-[64px] md:py-[120px] px-6 md:px-8 text-center max-w-7xl mx-auto overflow-hidden">
+      <section className="relative py-12 md:py-24 px-6 md:px-8 text-center max-w-7xl mx-auto overflow-hidden">
         <div className="absolute top-0 left-10 w-64 h-64 bg-rose-200/5 blur-3D rounded-full pointer-events-none" />
         
         <motion.div
@@ -41,7 +41,7 @@ export default function ContactUsPage() {
           <span className="text-[10px] tracking-[0.4em] text-antique-gold uppercase font-display font-medium block">
             PRIVATE LIAISON
           </span>
-          <h1 className="font-serif text-4xl md:text-6xl font-extralight tracking-wide text-obsidian leading-tight">
+          <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl font-extralight tracking-wide text-obsidian leading-tight">
             We would love to hear from you.
           </h1>
           <p className="font-sans text-xs md:text-sm font-light text-gray-400 max-w- mx-auto leading-relaxed">
@@ -52,7 +52,7 @@ export default function ContactUsPage() {
       </section>
 
       {/* Main Grid: Form and Contact Info */}
-      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-16 md:mb-[120px]">
+      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-12 md:mb-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-stretch">
           
           {/* Contact Form Panel */}
@@ -218,7 +218,7 @@ export default function ContactUsPage() {
       </section>
 
       {/* WhatsApp Consultation Banner */}
-      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-16 md:mb-[120px]">
+      <section className="max-w-7xl mx-auto px-6 md:px-8 mb-12 md:mb-24">
         <div className="bg-[#EFE7DD] py-12 px-8 md:px-16 border border-champagne/50 text-obsidian rounded-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden shadow-xs">
           <div className="space-y-2 text-center relative z-10 max-w- mx-auto">
             <span style={{ fontSize: '11px', fontVariant: 'small-caps', letterSpacing: '0.04em', color: '#C8A96B', fontWeight: 400 }} className="font-display block">

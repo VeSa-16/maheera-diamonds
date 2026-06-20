@@ -191,13 +191,13 @@ export default function ProductCatalog({
 
         {/* Primary grids list */}
         {isLoading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="aspect-[4/5] w-full bg-platinum skeleton-loader rounded-xs" />
             ))}
           </div>
         ) : (
-          <div id="catalog-cards-grid" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12">
+          <div id="catalog-cards-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-8 md:gap-y-12">
             {filteredProducts.map((product, idx) => (
             <motion.div
               initial={{ opacity: 0, y: 30 }}

@@ -133,7 +133,7 @@ export default function Masterclass4C() {
                     {activeData.description}
                   </p>
 
-                  <div className="grid grid-cols-2 gap-8 pt-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-4">
                     {activeData.stats.map((stat, idx) => (
                       <div key={idx} className="space-y-2">
                         <span className="block font-display text-[9px] uppercase tracking-widest text-antique-gold">
