@@ -28,7 +28,6 @@ import ClientPortal from './components/ClientPortal';
 const AboutUsPage = lazy(() => import('./components/AboutUsPage'));
 const CataloguePage = lazy(() => import('./components/CataloguePage'));
 const ContactUsPage = lazy(() => import('./components/ContactUsPage'));
-const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
 import SEO from './components/SEO';
 
 import { Product, CartItem, CustomRingConfiguration, Appointment } from './types';
@@ -37,7 +36,7 @@ import { useQuery } from '@tanstack/react-query';
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'catalogue' | 'contact' | 'admin'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'about' | 'catalogue' | 'contact'>('home');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -105,7 +104,7 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handlePageChangeWithTransition = (page: 'home' | 'about' | 'catalogue' | 'contact' | 'admin') => {
+  const handlePageChangeWithTransition = (page: 'home' | 'about' | 'catalogue' | 'contact') => {
     if (page === currentPage) return;
     setIsTransitioning(true);
     setTimeout(() => {
@@ -360,20 +359,18 @@ export default function App() {
       </AnimatePresence>
 
       {/* Primary Overhead Header Navigation bar */}
-      {currentPage !== 'admin' && (
-        <Navbar
-          cartCount={cartItems.reduce((acc, current) => acc + current.quantity, 0)}
-          onOpenCart={() => setIsCartOpen(true)}
-          onOpenBooking={() => setIsBookingOpen(true)}
-          onOpenAuth={() => setIsAuthOpen(true)}
-          onOpenClientPortal={() => setIsClientPortalOpen(true)}
-          onLogout={handleLogout}
-          user={user}
-          favoritesCount={favorites.length}
-          currentPage={currentPage}
-          onPageChange={handlePageChangeWithTransition}
-        />
-      )}
+      <Navbar
+        cartCount={cartItems.reduce((acc, current) => acc + current.quantity, 0)}
+        onOpenCart={() => setIsCartOpen(true)}
+        onOpenBooking={() => setIsBookingOpen(true)}
+        onOpenAuth={() => setIsAuthOpen(true)}
+        onOpenClientPortal={() => setIsClientPortalOpen(true)}
+        onLogout={handleLogout}
+        user={user}
+        favoritesCount={favorites.length}
+        currentPage={currentPage}
+        onPageChange={handlePageChangeWithTransition}
+      />
 
       {/* Master Main section */}
       <main className="flex-1">
@@ -600,19 +597,6 @@ export default function App() {
             </motion.div>
           )}
 
-          {currentPage === 'admin' && (
-            <motion.div
-              key="admin"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <Suspense fallback={<div className="h-screen flex items-center justify-center text-antique-gold font-serif bg-obsidian">Loading Admin Ecosystem...</div>}>
-                <AdminDashboard onExit={() => handlePageChangeWithTransition('home')} />
-              </Suspense>
-            </motion.div>
-          )}
         </AnimatePresence>
       </main>
 
@@ -665,10 +649,10 @@ export default function App() {
       </AnimatePresence>
 
       {/* Live VIP Concierge Chat globally available */}
-      {currentPage !== 'admin' && <LiveChat />}
+      <LiveChat />
 
       {/* Premium Luxury Boutique Footer Section */}
-      {currentPage !== 'admin' && <Footer onPageChange={handlePageChangeWithTransition} />}
+      <Footer onPageChange={handlePageChangeWithTransition} />
 
     </div>
   );

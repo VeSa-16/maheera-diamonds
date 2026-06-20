@@ -37,7 +37,6 @@ function ProductCard({
     <div
       onClick={() => onQuickLook(product)}
       className="group relative flex flex-col justify-between space-y-3 bg-white p-3 cursor-pointer hover:scale-[1.03] hover:shadow-[0_0_0_1px_rgba(201,168,76,0.4)] cursor-hover"
-      data-cursor-text="VIEW"
       style={{ transition: 'transform 500ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 500ms ease' }}
     >
       {/* Product Frame Thumbnail */}
@@ -46,21 +45,13 @@ function ProductCard({
           <div className="absolute inset-0 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]" />
         )}
         {!imgError ? (
-          <>
-            <img
-              src={product.image}
-              onLoad={() => setImgLoaded(true)}
-              onError={() => setImgError(true)}
-              className="hidden" 
-              alt="preload"
-            />
-            {imgLoaded && (
-              <WebGLImageHover 
-                src={product.image} 
-                className="w-full h-full object-cover transition-opacity duration-700 ease-in-out opacity-100" 
-              />
-            )}
-          </>
+          <img
+            src={product.image}
+            onLoad={() => setImgLoaded(true)}
+            onError={() => setImgError(true)}
+            className={`w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`} 
+            alt={product.name}
+          />
         ) : (
           <div className="absolute inset-0 bg-gray-50 flex items-center justify-center">
             <span className="text-xs text-gray-400 font-sans">Image unavailable</span>

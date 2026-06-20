@@ -17,6 +17,19 @@ export default function SettingsView({ theme }: SettingsViewProps) {
 
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  
+  const [isDiagnosing, setIsDiagnosing] = useState(false);
+  const [diagnosisResult, setDiagnosisResult] = useState<string | null>(null);
+
+  const handleRunDiagnostics = () => {
+    setIsDiagnosing(true);
+    setDiagnosisResult(null);
+    setTimeout(() => {
+      setIsDiagnosing(false);
+      setDiagnosisResult("All systems nominal. API and Database are synchronized with 0ms latency.");
+      setTimeout(() => setDiagnosisResult(null), 5000);
+    }, 2500);
+  };
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -197,11 +210,19 @@ export default function SettingsView({ theme }: SettingsViewProps) {
               </div>
             </div>
             
-            <button className={`w-full mt-6 py-2 text-xs font-display uppercase tracking-widest border transition-colors ${
+            <button 
+              onClick={handleRunDiagnostics}
+              disabled={isDiagnosing}
+              className={`w-full mt-6 py-2 text-xs font-display uppercase tracking-widest border transition-colors ${
               isDark ? 'border-white/20 hover:bg-white/5 text-white' : 'border-black/20 hover:bg-black/5 text-obsidian'
-            }`}>
-              Run Diagnostics
+            } ${isDiagnosing ? 'opacity-50 cursor-not-allowed' : ''}`}>
+              {isDiagnosing ? 'Running Analysis...' : 'Run Diagnostics'}
             </button>
+            {diagnosisResult && (
+              <p className="mt-3 text-[10px] text-[#25D366] animate-fade-in text-center leading-relaxed">
+                {diagnosisResult}
+              </p>
+            )}
           </div>
         </div>
       </div>

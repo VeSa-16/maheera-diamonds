@@ -5,6 +5,8 @@ import CRMView from './views/CRMView';
 import AnalyticsView from './views/AnalyticsView';
 import CatalogueView from './views/CatalogueView';
 import SettingsView from './views/SettingsView';
+import CustomizerEngineView from './views/CustomizerEngineView';
+import AdminLogisticsView from './views/AdminLogisticsView';
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -26,6 +28,10 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         return <CatalogueView theme={theme} />;
       case 'settings':
         return <SettingsView theme={theme} />;
+      case 'customizer':
+        return <CustomizerEngineView theme={theme} />;
+      case 'logistics':
+        return <AdminLogisticsView theme={theme} />;
       default:
         return (
           <div className={`flex flex-col items-center justify-center h-full font-sans ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>

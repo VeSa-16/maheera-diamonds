@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "id": "2mj98camqms08vp",
+    "created_at": "2026-06-20T19:54:07.477Z",
+    "status": "Read",
+    "stage": "Crafting",
+    "notes": [],
+    "name": "arnav",
+    "phone": "8208763296",
+    "product": "Aura Halo Pendant",
+    "type": "Product Inquiry",
+    "message": "wedding ring",
+    "raw_data": {
+      "productId": "m-neck-01",
+      "category": "necklaces",
+      "price": 380000
+    }
+  },
+  {
+    "id": "pchq72xmqms9xp2",
+    "created_at": "2026-06-20T20:01:39.542Z",
+    "status": "Read",
+    "stage": "Consultation",
+    "notes": [],
+    "name": "vedant",
+    "phone": "1234567890",
+    "product": "Bespoke round Ring",
+    "type": "Diamond Customizer",
+    "message": "vyewuvi",
+    "raw_data": {
+      "shape": "round",
+      "metal": "platinum",
+      "setting": "solitaire",
+      "carat": 0.5,
+      "clarity": "VS1",
+      "colorGrade": "F",
+      "engraving": "",
+      "engravingFont": "serif",
+      "estimatedPrice": 181501
+    }
+  }
+]

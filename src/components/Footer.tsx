@@ -4,7 +4,7 @@ import { Phone, Mail, Instagram, Send, Sparkles, MapPin, ArrowUpRight } from 'lu
 import BrandLogo from './BrandLogo';
 
 interface FooterProps {
-  onPageChange: (page: 'home' | 'about' | 'catalogue' | 'contact' | 'admin') => void;
+  onPageChange: (page: 'home' | 'about' | 'catalogue' | 'contact') => void;
 }
 
 export default function Footer({ onPageChange }: FooterProps) {
@@ -26,6 +26,10 @@ export default function Footer({ onPageChange }: FooterProps) {
   };
 
   const handleQuickLink = (page: 'home' | 'about' | 'catalogue' | 'contact' | 'admin') => {
+    if (page === 'admin') {
+      window.location.href = '/admin';
+      return;
+    }
     onPageChange(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
