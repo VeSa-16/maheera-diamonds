@@ -263,44 +263,43 @@ function buildEmerald(s: number): THREE.BufferGeometry {
 
   const W = 0.45 * s;   // half-width
   const L = 0.62 * s;   // half-length (rectangular 1:1.38 ratio)
-  const Hp = 0.36 * s;  // pavilion depth
-  const Hc = 0.14 * s;  // crown height
+  const Hp = 0.42 * s;  // pavilion depth
+  const Hc = 0.16 * s;  // crown height
   const G = 0.02 * s;   // girdle
-  const cr = 0.14 * s;  // corner chamfer
+  const cr = 0.08 * s;  // corner chamfer (tighter for elegance)
 
   // Build rectangular ring with chamfered corners (8 vertices per ring)
   function ring8(hw: number, hl: number, y: number): number[] {
     return [
-      add(-hw + cr, y, -hl),    // top-left chamfer right
-      add(hw - cr, y, -hl),     // top-right chamfer left
-      add(hw, y, -hl + cr),     // top-right chamfer bottom
-      add(hw, y, hl - cr),      // bottom-right chamfer top
-      add(hw - cr, y, hl),      // bottom-right chamfer left
-      add(-hw + cr, y, hl),     // bottom-left chamfer right
-      add(-hw, y, hl - cr),     // bottom-left chamfer top
-      add(-hw, y, -hl + cr),    // top-left chamfer bottom
+      add(-hw + cr, y, -hl),    // 0: top-left chamfer right
+      add(hw - cr, y, -hl),     // 1: top-right chamfer left
+      add(hw, y, -hl + cr),     // 2: top-right chamfer bottom
+      add(hw, y, hl - cr),      // 3: bottom-right chamfer top
+      add(hw - cr, y, hl),      // 4: bottom-right chamfer left
+      add(-hw + cr, y, hl),     // 5: bottom-left chamfer right
+      add(-hw, y, hl - cr),     // 6: bottom-left chamfer top
+      add(-hw, y, -hl + cr),    // 7: top-left chamfer bottom
     ];
   }
 
-  // Step ratios for emerald step-cut (3 pavilion steps + culet line)
+  // Step ratios for emerald step-cut (3 pavilion steps)
   const pavSteps = [
     ring8(W, L, 0),                          // girdle bottom
-    ring8(W * 0.72, L * 0.72, -Hp * 0.4),   // step 1
-    ring8(W * 0.4, L * 0.4, -Hp * 0.75),    // step 2
+    ring8(W * 0.8, L * 0.82, -Hp * 0.35),   // step 1
+    ring8(W * 0.5, L * 0.55, -Hp * 0.70),   // step 2
   ];
-  // Culet (line for emerald, not point)
-  const culetLine = [
-    add(-W * 0.08, -Hp, 0),
-    add(W * 0.08, -Hp, 0),
-  ];
+  
+  // Keel line for the culet (along Z axis)
+  const cTop = add(0, -Hp, -L * 0.3);
+  const cBot = add(0, -Hp, L * 0.3);
 
   const crownSteps = [
     ring8(W, L, G),                           // girdle top
-    ring8(W * 0.82, L * 0.82, G + Hc * 0.45), // crown step 1
-    ring8(W * 0.6, L * 0.6, G + Hc * 0.8),    // crown step 2 (table border)
+    ring8(W * 0.85, L * 0.87, G + Hc * 0.4),  // crown step 1
+    ring8(W * 0.65, L * 0.68, G + Hc * 0.8),  // crown step 2
   ];
   // Table
-  const tableR = ring8(W * 0.5, L * 0.5, G + Hc);
+  const tableR = ring8(W * 0.55, L * 0.6, G + Hc);
   const tableC = add(0, G + Hc, 0);
 
   // Connect rings with quads
@@ -316,17 +315,26 @@ function buildEmerald(s: number): THREE.BufferGeometry {
   connectRings(pavSteps[0], pavSteps[1]);
   connectRings(pavSteps[1], pavSteps[2]);
 
-  // Bottom step to culet line (fan)
+  // Bottom step to keel line
   const lastPav = pavSteps[2];
-  for (let i = 0; i < lastPav.length; i++) {
-    const n = (i + 1) % lastPav.length;
-    // Alternate connection to culet endpoints
-    const ci = i < lastPav.length / 2 ? culetLine[0] : culetLine[1];
-    tri(lastPav[i], lastPav[n], ci);
-  }
-  // Close culet
-  tri(culetLine[0], lastPav[0], lastPav[lastPav.length - 1]);
-  tri(culetLine[1], lastPav[3], lastPav[4]);
+  
+  // Top fan (connects to cTop)
+  tri(lastPav[7], lastPav[0], cTop);
+  tri(lastPav[0], lastPav[1], cTop);
+  tri(lastPav[1], lastPav[2], cTop);
+  
+  // Bottom fan (connects to cBot)
+  tri(lastPav[3], lastPav[4], cBot);
+  tri(lastPav[4], lastPav[5], cBot);
+  tri(lastPav[5], lastPav[6], cBot);
+  
+  // Right side quad (connects 2, 3 to cTop, cBot)
+  tri(lastPav[2], lastPav[3], cBot);
+  tri(lastPav[2], cBot, cTop);
+  
+  // Left side quad (connects 6, 7 to cBot, cTop)
+  tri(lastPav[6], lastPav[7], cTop);
+  tri(lastPav[6], cTop, cBot);
 
   // Girdle
   connectRings(pavSteps[0], crownSteps[0]);
@@ -336,7 +344,7 @@ function buildEmerald(s: number): THREE.BufferGeometry {
   connectRings(crownSteps[1], crownSteps[2]);
   connectRings(crownSteps[2], tableR);
 
-  // Table face
+  // Table face (fan from center)
   for (let i = 0; i < tableR.length; i++) {
     const n = (i + 1) % tableR.length;
     tri(tableC, tableR[i], tableR[n]);

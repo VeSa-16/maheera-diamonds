@@ -13,7 +13,6 @@ import InstagramFeed from './components/InstagramFeed';
 import BookingModal from './components/BookingModal';
 import CartOverlay from './components/CartOverlay';
 import AuthModal from './components/AuthModal';
-import CustomCursor from './components/CustomCursor';
 import BrandLogo from './components/BrandLogo';
 import Footer from './components/Footer';
 import JewelryCategories from './components/JewelryCategories';
@@ -306,7 +305,6 @@ export default function App() {
   return (
     <div className="bg-warm-ivory min-h-screen flex flex-col justify-between text-obsidian selection:bg-blush-rose selection:text-obsidian relative">
       <SmoothScroll />
-      <CustomCursor />
       
       {/* Full Screen Premium Loader */}
       <AnimatePresence>

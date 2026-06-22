@@ -47,9 +47,9 @@ export default function LoadingScreen() {
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className="scale-125"
+            className="scale-125 flex justify-center"
           >
-            <BrandLogo variant="light" className="w-16 h-16" />
+            <BrandLogo size={64} showText={false} />
           </motion.div>
         </div>
 

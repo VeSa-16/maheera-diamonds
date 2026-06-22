@@ -75,12 +75,16 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
       case 'emerald':
         return (
           <svg viewBox="0 0 36 36" width="36" height="36" {...props}>
-            <rect x="10" y="6" width="16" height="24" />
-            <rect x="14" y="10" width="8" height="16" />
-            <line x1="10" y1="6" x2="14" y2="10" />
-            <line x1="26" y1="6" x2="22" y2="10" />
-            <line x1="10" y1="30" x2="14" y2="26" />
-            <line x1="26" y1="30" x2="22" y2="26" />
+            <polygon points="12,6 24,6 28,10 28,26 24,30 12,30 8,26 8,10" />
+            <polygon points="15,10 21,10 24,13 24,23 21,26 15,26 12,23 12,13" />
+            <line x1="12" y1="6" x2="15" y2="10" />
+            <line x1="24" y1="6" x2="21" y2="10" />
+            <line x1="28" y1="10" x2="24" y2="13" />
+            <line x1="28" y1="26" x2="24" y2="23" />
+            <line x1="24" y1="30" x2="21" y2="26" />
+            <line x1="12" y1="30" x2="15" y2="26" />
+            <line x1="8" y1="26" x2="12" y2="23" />
+            <line x1="8" y1="10" x2="12" y2="13" />
           </svg>
         );
       case 'princess':
@@ -176,23 +180,27 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
           <div className="lg:col-span-7 space-y-8">
             
             {/* Tabs for choosing sections */}
-            <div className="flex border-b border-white/10 overflow-x-auto no-scrollbar">
-              {(['shape', 'metal', 'setting', 'quality', 'engraving'] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className="flex-1 py-4 uppercase cursor-pointer text-center shrink-0 transition-all duration-300 min-w-[80px]"
-                  style={{
-                    fontFamily: '"DM Sans", sans-serif',
-                    fontSize: '11px',
-                    letterSpacing: '0.12em',
-                    color: activeTab === tab ? 'var(--antique-gold)' : 'rgba(250,247,242,0.4)',
-                    borderBottom: activeTab === tab ? '1.5px solid var(--antique-gold)' : 'none'
-                  }}
-                >
-                  0{['shape', 'metal', 'setting', 'quality', 'engraving'].indexOf(tab) + 1} {tab === 'quality' ? 'Grades' : tab}
-                </button>
-              ))}
+            <div className="relative">
+              <div className="flex border-b border-white/10 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-1">
+                {(['shape', 'metal', 'setting', 'quality', 'engraving'] as const).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className="flex-1 py-4 uppercase cursor-pointer text-center shrink-0 transition-all duration-300 min-w-[90px] snap-start"
+                    style={{
+                      fontFamily: '"DM Sans", sans-serif',
+                      fontSize: '11px',
+                      letterSpacing: '0.12em',
+                      color: activeTab === tab ? 'var(--antique-gold)' : 'rgba(250,247,242,0.4)',
+                      borderBottom: activeTab === tab ? '1.5px solid var(--antique-gold)' : 'none'
+                    }}
+                  >
+                    0{['shape', 'metal', 'setting', 'quality', 'engraving'].indexOf(tab) + 1} {tab === 'quality' ? 'Grades' : tab}
+                  </button>
+                ))}
+              </div>
+              {/* Fade out indicator for mobile horizontal scroll */}
+              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-obsidian to-transparent pointer-events-none md:hidden" />
             </div>
 
             {/* Active Control Panels */}
@@ -205,14 +213,14 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
                     <h4 className="font-serif text-[15px] font-medium text-white uppercase tracking-wider">Select Center Diamond Shape</h4>
                   </div>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-5 gap-3">
+                  <div className="grid grid-cols-3 md:grid-cols-5 gap-2 md:gap-3">
                     {DIAMOND_SHAPES.map((shape) => {
                       const isSelected = config.shape === shape.id;
                       return (
                         <button
                           key={shape.id}
                           onClick={() => setConfig({ ...config, shape: shape.id })}
-                          className="flex flex-col items-center justify-center gap-3 p-4 transition-all duration-300 rounded-none h-32 cursor-pointer border border-transparent"
+                          className="flex flex-col items-center justify-center gap-2 md:gap-3 p-2 md:p-4 transition-all duration-300 rounded-none h-24 md:h-32 cursor-pointer border border-transparent"
                           style={{
                             background: isSelected ? 'rgba(201,168,76,0.12)' : 'rgba(250,247,242,0.04)'
                           }}
@@ -240,12 +248,12 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
                     <h4 className="font-serif text-[15px] font-medium text-white uppercase tracking-wider">Select Precious Metal Chassis</h4>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                     {METALS.map((metal) => (
                       <button
                         key={metal.id}
                         onClick={() => setConfig({ ...config, metal: metal.id })}
-                        className={`p-5 text-center border rounded-xs transition-all duration-300 flex items-center space-x-4 cursor-pointer ${
+                        className={`p-3 md:p-5 text-center border rounded-xs transition-all duration-300 flex flex-col md:flex-row items-center md:space-x-4 gap-2 md:gap-0 cursor-pointer ${
                           config.metal === metal.id
                             ? 'border-antique-gold bg-white/10 shadow-md ring-1 ring-antique-gold text-white'
                             : 'border-white/10 hover:border-antique-gold/50 bg-white/5 text-stone-300'
@@ -278,12 +286,12 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
                     <h4 className="font-serif text-[15px] font-medium text-white uppercase tracking-wider">Select Diamond Setting Frame</h4>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-3 md:gap-4">
                     {SETTINGS.map((setting) => (
                       <button
                         key={setting.id}
                         onClick={() => setConfig({ ...config, setting: setting.id })}
-                        className={`p-4 border text-center rounded-xs transition-all duration-300 flex flex-col justify-between cursor-pointer ${
+                        className={`p-3 md:p-4 border text-left md:text-center rounded-xs transition-all duration-300 flex flex-col justify-between cursor-pointer ${
                           config.setting === setting.id
                             ? 'border-antique-gold bg-white/10 shadow-md ring-1 ring-antique-gold text-white'
                             : 'border-white/10 hover:border-antique-gold/50 bg-white/5 text-stone-300'

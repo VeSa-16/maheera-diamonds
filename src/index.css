@@ -26,10 +26,7 @@ html {
   overflow-x: hidden;
 }
 
-body.hide-native-cursor,
-body.hide-native-cursor * {
-  cursor: none !important;
-}
+
 
 @layer utilities {
   .animate-petal-burst {
