@@ -62,7 +62,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w- mx-auto bg-[#1a1a1a] border border-white/10 p-8 shadow-2xl z-10"
+          className="relative w-full max-w-md mx-auto bg-[#1a1a1a] border border-white/10 p-8 shadow-2xl z-10 max-h-[90dvh] overflow-y-auto scrollbar-hide"
         >
           <button
             onClick={onClose}

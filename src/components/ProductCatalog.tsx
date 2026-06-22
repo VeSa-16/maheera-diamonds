@@ -259,7 +259,7 @@ export default function ProductCatalog({
           />
           <div className="fixed inset-0" onClick={() => setQuickLookProduct(null)} />
           
-          <div className="relative w-full max-w- mx-auto bg-obsidian border border-gold-900/40 p-6 md:p-12 shadow-2xl rounded-xs z-10 animate-fade-in flex flex-col md:flex-row gap-8 md:gap-12 text-xs">
+          <div className="relative w-full max-w-4xl max-h-[90dvh] overflow-y-auto mx-auto bg-obsidian border border-antique-gold/20 p-6 md:p-12 shadow-2xl rounded-xs z-10 animate-fade-in flex flex-col md:flex-row gap-8 md:gap-12 text-xs scrollbar-hide">
             {/* Close button */}
             <button
               aria-label="Close product view"

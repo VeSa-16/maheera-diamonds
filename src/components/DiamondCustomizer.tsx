@@ -134,12 +134,12 @@ export default function DiamondCustomizer({ onAddCustomToCart }: DiamondCustomiz
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
           {/* Left Column: Realistic Interactive Ring/Diamond Preview Frame */}
-          <div className="lg:col-span-5 h-[480px] md:h-[550px] bg-white/5 rounded-xs border border-white/10 flex flex-col justify-between p-8 relative overflow-hidden group">
+          <div className="lg:col-span-5 h-[350px] md:h-[550px] lg:sticky lg:top-32 bg-white/5 rounded-xs border border-white/10 flex flex-col justify-between p-8 relative overflow-hidden group z-20">
             
             {/* Absolute Brand background watermarks */}
             <div className="absolute top-8 left-8 text-center select-none opacity-20">
               <span className="font-serif text-xs text-antique-gold block tracking-widest font-light">MAHEERA</span>
-              <span className="font-display text-[7px] text-antique-gold block tracking-widest font-extralight uppercase">BESPOKE CHASSIS</span>
+              <span className="font-display text-[7px] text-antique-gold block tracking-widest font-extralight uppercase hidden md:block">BESPOKE CHASSIS</span>
             </div>
 
             <div className="absolute top-8 right-8 text-right flex items-center gap-1 bg-white px-3 py-1 border border-champagne/50">

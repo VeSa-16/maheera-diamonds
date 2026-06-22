@@ -104,7 +104,7 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="relative w-full max-w- mx-auto h-full bg-warm-ivory shadow-2xl flex flex-col overflow-y-auto border-l border-antique-gold"
+            className="relative w-full max-w-md mx-auto h-[100dvh] bg-warm-ivory shadow-2xl flex flex-col overflow-y-auto border-l border-antique-gold scrollbar-hide"
           >
             <div className="p-8 flex-grow">
               {/* Close Button */}
