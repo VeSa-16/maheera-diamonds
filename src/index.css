@@ -35,6 +35,23 @@ body.hide-native-cursor * {
   .animate-petal-burst {
     animation: petal-burst 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
+  
+  /* Fluid Typography - Scales perfectly from mobile to 4K */
+  .text-fluid-h1 {
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 1.05;
+  }
+  .text-fluid-h2 {
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    line-height: 1.1;
+  }
+  .text-fluid-h3 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    line-height: 1.2;
+  }
+  .text-fluid-base {
+    font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+  }
 }
 
 @keyframes petal-burst {
@@ -46,6 +63,12 @@ body.hide-native-cursor * {
     transform: scale(1.5) translateY(-20px);
     opacity: 0;
   }
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
+  min-height: 100dvh; /* iOS Safari fix */
 }
 
 body {
