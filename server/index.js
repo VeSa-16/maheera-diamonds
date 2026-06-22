@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 
 const DATA_DIR = path.join(__dirname, 'data');
 const INQUIRIES_FILE = path.join(DATA_DIR, 'inquiries.json');
@@ -441,6 +441,39 @@ app.get('/api/analytics', (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch analytics' });
+  }
+});
+
+// IMAGE UPLOAD ENDPOINT
+app.post('/api/upload', authenticateToken, (req, res) => {
+  try {
+    const { image } = req.body;
+    if (!image) return res.status(400).json({ error: 'No image provided' });
+
+    // Expect base64 format: "data:image/jpeg;base64,/9j/4AAQSkZJ..."
+    const matches = image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+    if (!matches || matches.length !== 3) {
+      return res.status(400).json({ error: 'Invalid base64 format' });
+    }
+
+    const extension = matches[1].split('/')[1] || 'jpg';
+    const base64Data = matches[2];
+    const buffer = Buffer.from(base64Data, 'base64');
+
+    const filename = `upload-${Date.now()}-${Math.random().toString(36).substring(7)}.${extension}`;
+    
+    // Save to public/uploads
+    const uploadsDir = path.join(__dirname, '../public/uploads');
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+
+    fs.writeFileSync(path.join(uploadsDir, filename), buffer);
+
+    res.json({ url: `/uploads/${filename}` });
+  } catch (err) {
+    console.error('Upload Error:', err);
+    res.status(500).json({ error: 'Failed to upload image' });
   }
 });
 

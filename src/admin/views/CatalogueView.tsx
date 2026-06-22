@@ -13,6 +13,7 @@ export default function CatalogueView({ theme }: CatalogueViewProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [editProductId, setEditProductId] = useState<string | null>(null);
+  const [isUploadingPrimary, setIsUploadingPrimary] = useState(false);
 
   // Form state
   const [formData, setFormData] = useState<Partial<Product>>({
@@ -108,6 +109,37 @@ export default function CatalogueView({ theme }: CatalogueViewProps) {
     setDetailsText('');
     setGalleryText('');
     setEditProductId(null);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingPrimary(true);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async () => {
+      try {
+        const base64 = reader.result;
+        const token = localStorage.getItem('maheera_token') || '';
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ image: base64 })
+        });
+        if (!res.ok) throw new Error('Upload failed');
+        const data = await res.json();
+        setFormData((prev) => ({ ...prev, image: data.url }));
+      } catch (err) {
+        alert('Failed to upload image. Please check file size and try again.');
+        console.error(err);
+      } finally {
+        setIsUploadingPrimary(false);
+      }
+    };
   };
 
   const handleSave = (e: React.FormEvent) => {
@@ -340,13 +372,27 @@ export default function CatalogueView({ theme }: CatalogueViewProps) {
               </div>
 
               <div className="space-y-2">
-                <label className={`text-[10px] uppercase tracking-widest font-display ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Primary Image Link</label>
-                <input required type="url" placeholder="https://..." value={formData.image} onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className={`w-full p-3 text-sm border focus:outline-none focus:border-antique-gold ${
-                    isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-gray-50 border-black/10 text-obsidian'
-                  }`}
-                />
-                <p className="text-[10px] text-gray-500">Paste a web link to an image (e.g. from your website, Unsplash, or Dropbox).</p>
+                <label className={`text-[10px] uppercase tracking-widest font-display ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Primary Image</label>
+                <div className="flex items-center gap-4">
+                  <input required type="url" placeholder="https://..." value={formData.image} onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                    className={`flex-1 p-3 text-sm border focus:outline-none focus:border-antique-gold ${
+                      isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-gray-50 border-black/10 text-obsidian'
+                    }`}
+                  />
+                  <div className="relative overflow-hidden">
+                    <button type="button" disabled={isUploadingPrimary}
+                      className={`px-4 py-3 border font-display text-xs uppercase tracking-widest transition-colors whitespace-nowrap ${
+                        isDark ? 'bg-white/5 border-white/10 text-white hover:bg-white/10' : 'bg-gray-50 border-black/10 text-obsidian hover:bg-gray-100'
+                      }`}
+                    >
+                      {isUploadingPrimary ? 'Uploading...' : 'Upload File'}
+                    </button>
+                    <input type="file" accept="image/*" onChange={handleImageUpload} disabled={isUploadingPrimary}
+                      className="absolute inset-0 opacity-0 cursor-pointer"
+                    />
+                  </div>
+                </div>
+                <p className="text-[10px] text-gray-500">Upload an image from your device OR paste a web link directly.</p>
               </div>
 
               <div className="space-y-2">
