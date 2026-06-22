@@ -343,7 +343,7 @@ export default function HeroSection({
             <Magnetic strength={20}>
               <button
                 onClick={onExploreCatalog}
-                className="group relative overflow-hidden px-8 py-3.5 border border-warm-ivory/15 hover:border-antique-gold/50 transition-all duration-700 cursor-pointer"
+                className="group relative overflow-hidden px-8 py-4 md:py-3.5 border border-warm-ivory/15 hover:border-antique-gold/50 transition-all duration-700 cursor-pointer"
               >
                 <span
                   className="relative z-10 font-display uppercase text-[10px] md:text-[11px] text-warm-ivory group-hover:text-obsidian transition-colors duration-500"
@@ -358,7 +358,7 @@ export default function HeroSection({
             <Magnetic strength={15}>
               <button
                 onClick={onExploreCustomizer}
-                className="group flex items-center gap-3 cursor-pointer"
+                className="group flex items-center gap-3 cursor-pointer py-2 md:py-0"
               >
                 <span
                   className="font-display uppercase text-[10px] md:text-[11px] text-warm-ivory/40 group-hover:text-antique-gold transition-colors duration-500"
