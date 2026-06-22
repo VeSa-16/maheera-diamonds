@@ -305,6 +305,8 @@ export default function App() {
   return (
     <div className="bg-warm-ivory min-h-screen flex flex-col justify-between text-obsidian selection:bg-blush-rose selection:text-obsidian relative">
       
+      <CustomCursor />
+      
       {/* Full Screen Premium Loader */}
       <AnimatePresence>
         {isLoading && <LoadingScreen />}
