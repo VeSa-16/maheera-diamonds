@@ -68,7 +68,7 @@ export default function Navbar({
   return (
     <header
       className={`fixed top-0 left-0 right-0 select-none ${
-        megaMenuOpen ? 'z-[1000] h-screen overflow-hidden' : 'z-50 h-auto'
+        megaMenuOpen ? 'z-[1000] h-[100dvh] overflow-hidden' : 'z-50 h-auto'
       }`}
     >
       {/* Top Trust Bar */}
