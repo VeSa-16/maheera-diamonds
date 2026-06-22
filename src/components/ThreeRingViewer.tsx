@@ -9,6 +9,8 @@ interface ThreeRingViewerProps {
   caratSize: number;
   settingType?: string;
   engraving?: string;
+  enableZoom?: boolean;
+  autoRotate?: boolean;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -134,8 +136,9 @@ function buildRoundBrilliant(s: number): THREE.BufferGeometry {
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(v, 3));
   g.setIndex(f);
-  g.computeVertexNormals();
-  return g;
+  const flatG = g.toNonIndexed();
+  flatG.computeVertexNormals();
+  return flatG;
 }
 
 /**
@@ -233,8 +236,9 @@ function buildPrincess(s: number): THREE.BufferGeometry {
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(v, 3));
   g.setIndex(f);
-  g.computeVertexNormals();
-  return g;
+  const flatG = g.toNonIndexed();
+  flatG.computeVertexNormals();
+  return flatG;
 }
 
 /**
@@ -341,8 +345,9 @@ function buildEmerald(s: number): THREE.BufferGeometry {
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(v, 3));
   g.setIndex(f);
-  g.computeVertexNormals();
-  return g;
+  const flatG = g.toNonIndexed();
+  flatG.computeVertexNormals();
+  return flatG;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -365,16 +370,16 @@ function DiamondMesh({ shape, scale }: { shape: string; scale: number }) {
     <mesh geometry={geometry} castShadow>
       <MeshTransmissionMaterial
         backside
-        backsideThickness={1.0}
+        backsideThickness={1.2}
         thickness={1.5}
         ior={2.417}
-        chromaticAberration={0.05}
-        anisotropy={0.2}
-        distortion={0.0}
+        chromaticAberration={0.15}
+        anisotropy={0.3}
+        distortion={0.05}
         clearcoat={1}
         clearcoatRoughness={0}
         color="#ffffff"
-        envMapIntensity={5.0}
+        envMapIntensity={6.0}
         resolution={1024}
         transmissionSampler
       />
@@ -398,7 +403,7 @@ function useMetalMaterial(color: string) {
 }
 
 /**
- * Prong — elegant thick tapered claw setting
+ * Prong — elegant sweeping claw using a Cubic Bezier Curve
  */
 function Prong({
   angle, baseY, baseR, gripY, gripR, metalColor
@@ -411,20 +416,32 @@ function Prong({
   metalColor: string;
 }) {
   const geom = useMemo(() => {
-    // Straight thick post pointing to the diamond
+    // Start at the bridge (shank base)
     const p1 = new THREE.Vector3(Math.cos(angle) * baseR, baseY, Math.sin(angle) * baseR);
-    const p2 = new THREE.Vector3(Math.cos(angle) * gripR * 0.94, gripY, Math.sin(angle) * gripR * 0.94);
-    return new THREE.TubeGeometry(new THREE.LineCurve3(p1, p2), 4, 0.04, 16, false);
+    
+    // Bow out slightly to gracefully accommodate the diamond's deep pavilion
+    const bulgeR = baseR + (gripR - baseR) * 0.6 + 0.05;
+    const cp1 = new THREE.Vector3(Math.cos(angle) * bulgeR, baseY + (gripY - baseY) * 0.4, Math.sin(angle) * bulgeR);
+    
+    // Approach the diamond girdle
+    const cp2 = new THREE.Vector3(Math.cos(angle) * (gripR + 0.02), gripY - 0.1, Math.sin(angle) * (gripR + 0.02));
+    
+    // Hook over the crown (top edge of the diamond)
+    const p2 = new THREE.Vector3(Math.cos(angle) * gripR * 0.88, gripY + 0.04, Math.sin(angle) * gripR * 0.88);
+
+    const curve = new THREE.CubicBezierCurve3(p1, cp1, cp2, p2);
+    // Thin, delicate, highly-polished tube
+    return new THREE.TubeGeometry(curve, 24, 0.035, 16, false);
   }, [angle, baseY, baseR, gripY, gripR]);
 
   return (
     <group>
-      <mesh geometry={geom}>
+      <mesh geometry={geom} castShadow receiveShadow>
         <meshStandardMaterial color={metalColor} metalness={0.95} roughness={0.04} envMapIntensity={2.5} />
       </mesh>
-      {/* Claw Tip */}
-      <mesh position={[Math.cos(angle) * gripR * 0.94, gripY + 0.015, Math.sin(angle) * gripR * 0.94]}>
-        <sphereGeometry args={[0.045, 16, 16]} />
+      {/* Delicate Claw Tip */}
+      <mesh position={[Math.cos(angle) * gripR * 0.88, gripY + 0.04, Math.sin(angle) * gripR * 0.88]}>
+        <sphereGeometry args={[0.038, 16, 16]} />
         <meshStandardMaterial color={metalColor} metalness={0.95} roughness={0.04} envMapIntensity={2.5} />
       </mesh>
     </group>
@@ -542,53 +559,34 @@ function RingModel({ metalColor, diamondShape, caratSize, settingType = 'solitai
   return (
     <group ref={groupRef} position={[0, -0.4, 0]} rotation={[0.45, 0, 0]}>
 
-      {/* ═══ SHANK / BAND ═══ */}
-      <mesh rotation={[0, 0, 0]} castShadow receiveShadow>
+      {/* ═══ SHANK / BAND (Comfort-Fit Tapered Profile) ═══ */}
+      {/* Scale Z flattens the band against the finger for a realistic jewelry profile */}
+      <mesh rotation={[0, 0, 0]} castShadow receiveShadow scale={[1, 1, 0.6]}>
         <torusGeometry args={[bandR, bandT, 32, 128]} />
         <meshStandardMaterial color={metalColor} metalness={0.95} roughness={0.06} envMapIntensity={2} />
       </mesh>
 
-      {/* ═══ GALLERY — decorative open-work cylinder under the head ═══ */}
-      <mesh position={[0, headBaseY + galleryH / 2, 0]}>
-        <cylinderGeometry args={[
-          diamondGirdleR * 0.42,  // top radius (narrows toward diamond)
-          bandT * 2.2,            // bottom radius (matches shank width)
-          galleryH,               // height
-          32, 1, true             // open-ended
-        ]} />
-        <meshStandardMaterial
-          color={metalColor}
-          metalness={0.95}
-          roughness={0.06}
-          envMapIntensity={1.8}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-
-      {/* Gallery decorative cutouts (4 arch-shaped holes simulated with thin ring) */}
-      <mesh position={[0, headBaseY + galleryH * 0.5, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[bandT * 1.5, 0.012, 8, 32]} />
-        <meshStandardMaterial color={metalColor} metalness={0.95} roughness={0.08} />
-      </mesh>
-
-      {/* ═══ HEAD / SETTING BASE — platform the diamond sits on ═══ */}
-      <mesh position={[0, diamondY - 0.01, 0]}>
-        <cylinderGeometry args={[
-          diamondGirdleR * 0.48,  // top
-          diamondGirdleR * 0.42,  // bottom
-          0.03,                   // thin platform
-          32
-        ]} />
+      {/* ═══ HEAD & GALLERY (Basket Setting) ═══ */}
+      
+      {/* The Bridge (base of the gallery resting on the shank) */}
+      <mesh position={[0, headBaseY, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+        <torusGeometry args={[bandT * 1.8, 0.035, 16, 32]} />
         <meshStandardMaterial color={metalColor} metalness={0.95} roughness={0.06} envMapIntensity={2} />
       </mesh>
 
-      {/* ═══ PRONGS — straight solid claws holding the diamond ═══ */}
+      {/* The Gallery Rail (hidden halo ring just below the diamond girdle) */}
+      <mesh position={[0, diamondY - dScale * 0.25, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+        <torusGeometry args={[diamondGirdleR * 0.75, 0.025, 16, 32]} />
+        <meshStandardMaterial color={metalColor} metalness={0.95} roughness={0.06} envMapIntensity={2} />
+      </mesh>
+
+      {/* ═══ PRONGS — sweeping curved claws holding the diamond ═══ */}
       {prongAngles.map((angle, i) => (
         <Prong
           key={i}
           angle={angle}
-          baseY={headBaseY + galleryH * 0.2}
-          baseR={bandT * 2.0}
+          baseY={headBaseY}
+          baseR={bandT * 1.8}
           gripY={diamondY}
           gripR={diamondGirdleR}
           metalColor={metalColor}
@@ -669,6 +667,8 @@ function RingModel({ metalColor, diamondShape, caratSize, settingType = 'solitai
    ═══════════════════════════════════════════════════════════ */
 
 export default function ThreeRingViewer(props: ThreeRingViewerProps) {
+  const { enableZoom = true, autoRotate = false } = props;
+
   return (
     <div className="w-full h-full relative cursor-grab active:cursor-grabbing">
       <Canvas
@@ -696,8 +696,10 @@ export default function ThreeRingViewer(props: ThreeRingViewerProps) {
 
         <ContactShadows position={[0, -1.5, 0]} opacity={0.3} scale={5} blur={2.5} far={3} />
         <OrbitControls
-          enableZoom={true}
+          enableZoom={enableZoom}
           enablePan={false}
+          autoRotate={autoRotate}
+          autoRotateSpeed={0.8}
           minPolarAngle={Math.PI / 8}
           maxPolarAngle={Math.PI / 2 + 0.3}
           minDistance={2}
