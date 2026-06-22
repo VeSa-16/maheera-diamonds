@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'motion/react';
+import Magnetic from './Magnetic';
 
 interface HeroSectionProps {
   onExploreCustomizer: () => void;
@@ -339,37 +340,41 @@ export default function HeroSection({
 
           {/* Right: CTAs */}
           <div className="flex flex-col items-start md:items-end gap-4">
-            <button
-              onClick={onExploreCatalog}
-              className="group relative overflow-hidden px-8 py-3.5 border border-warm-ivory/15 hover:border-antique-gold/50 transition-all duration-700 cursor-pointer"
-            >
-              <span
-                className="relative z-10 font-display uppercase text-[10px] md:text-[11px] text-warm-ivory group-hover:text-obsidian transition-colors duration-500"
-                style={{ letterSpacing: '0.25em' }}
+            <Magnetic strength={20}>
+              <button
+                onClick={onExploreCatalog}
+                className="group relative overflow-hidden px-8 py-3.5 border border-warm-ivory/15 hover:border-antique-gold/50 transition-all duration-700 cursor-pointer"
               >
-                Explore Collection
-              </span>
-              <div className="absolute inset-0 bg-antique-gold transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
-            </button>
+                <span
+                  className="relative z-10 font-display uppercase text-[10px] md:text-[11px] text-warm-ivory group-hover:text-obsidian transition-colors duration-500"
+                  style={{ letterSpacing: '0.25em' }}
+                >
+                  Explore Collection
+                </span>
+                <div className="absolute inset-0 bg-antique-gold transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
+              </button>
+            </Magnetic>
 
-            <button
-              onClick={onExploreCustomizer}
-              className="group flex items-center gap-3 cursor-pointer"
-            >
-              <span
-                className="font-display uppercase text-[10px] md:text-[11px] text-warm-ivory/40 group-hover:text-antique-gold transition-colors duration-500"
-                style={{ letterSpacing: '0.2em' }}
+            <Magnetic strength={15}>
+              <button
+                onClick={onExploreCustomizer}
+                className="group flex items-center gap-3 cursor-pointer"
               >
-                Design Your Own
-              </span>
-              <motion.span
-                className="text-warm-ivory/25 text-sm group-hover:text-antique-gold transition-colors duration-500"
-                animate={{ x: [0, 4, 0] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                →
-              </motion.span>
-            </button>
+                <span
+                  className="font-display uppercase text-[10px] md:text-[11px] text-warm-ivory/40 group-hover:text-antique-gold transition-colors duration-500"
+                  style={{ letterSpacing: '0.2em' }}
+                >
+                  Design Your Own
+                </span>
+                <motion.span
+                  className="text-warm-ivory/25 text-sm group-hover:text-antique-gold transition-colors duration-500"
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  →
+                </motion.span>
+              </button>
+            </Magnetic>
           </div>
         </motion.div>
       </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Eye, Heart, Plus, ShoppingBag, X, Check, ArrowRight, MessageCircle } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, useScroll, useVelocity, useTransform, useSpring } from 'motion/react';
 import { Product, ProductCategory } from '../types';
 import { FEATURED_COLLECTIONS } from '../data';
 import { useQuery } from '@tanstack/react-query';
@@ -33,11 +33,17 @@ function ProductCard({
   const [imgError, setImgError] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
 
+  const { scrollY } = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
+  const skewValue = useTransform(smoothVelocity, [-1000, 1000], [-2, 2]);
+
   return (
-    <div
+    <motion.div
+      style={{ skewY: skewValue }}
       onClick={() => onQuickLook(product)}
-      className="group relative flex flex-col justify-between space-y-3 bg-white p-3 cursor-pointer hover:scale-[1.03] hover:shadow-[0_0_0_1px_rgba(201,168,76,0.4)] cursor-hover"
-      style={{ transition: 'transform 500ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 500ms ease' }}
+      className="group relative flex flex-col justify-between space-y-3 bg-white p-3 cursor-pointer hover:shadow-[0_0_0_1px_rgba(201,168,76,0.4)] cursor-hover"
+      whileHover={{ scale: 1.03, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }}
     >
       {/* Product Frame Thumbnail */}
       <div className="aspect-[4/5] w-full overflow-hidden bg-platinum relative">
@@ -102,7 +108,7 @@ function ProductCard({
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

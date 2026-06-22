@@ -53,19 +53,13 @@ body {
   width: 100%;
 }
 
-/* Custom scrollbar and premium elements */
+/* Hide scrollbars globally for a cleaner luxury aesthetic */
 ::-webkit-scrollbar {
-  width: 5px;
+  display: none;
 }
-::-webkit-scrollbar-track {
-  background: #fbfbfa;
-}
-::-webkit-scrollbar-thumb {
-  background: #c5a059;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #af8f4a;
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 /* Luxury card gloss and custom style utilities */

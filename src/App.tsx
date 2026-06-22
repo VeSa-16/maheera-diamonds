@@ -24,6 +24,7 @@ import AtelierVideo from './components/AtelierVideo';
 import VIPConcierge from './components/VIPConcierge';
 import LiveChat from './components/LiveChat';
 import ClientPortal from './components/ClientPortal';
+import SmoothScroll from './components/SmoothScroll';
 
 const AboutUsPage = lazy(() => import('./components/AboutUsPage'));
 const CataloguePage = lazy(() => import('./components/CataloguePage'));
@@ -304,7 +305,7 @@ export default function App() {
 
   return (
     <div className="bg-warm-ivory min-h-screen flex flex-col justify-between text-obsidian selection:bg-blush-rose selection:text-obsidian relative">
-      
+      <SmoothScroll />
       <CustomCursor />
       
       {/* Full Screen Premium Loader */}
